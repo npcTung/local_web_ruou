@@ -2,6 +2,8 @@ const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const dbConnection = require("./config/dbConnect");
+const initRouter = require("./routers");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.PORT || 8088;
@@ -16,11 +18,9 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 dbConnection();
-
-app.use("/", (req, res) => {
-  res.send("Server on...");
-});
+initRouter(app);
 
 app.listen(port, () => {
   console.log("Server running on the port:", port);
