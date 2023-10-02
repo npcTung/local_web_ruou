@@ -11,6 +11,7 @@ var userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     avatar: String,
+    fileNameAvatar: String,
     role: { type: String, enum: [2002, 2023], default: 2023 }, // 2002 => Admin, 2023 => User
     cart: [
       {

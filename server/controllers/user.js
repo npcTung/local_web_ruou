@@ -9,6 +9,7 @@ const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
 const maxToken = require("uniqid");
 const { users } = require("../ultils/constant");
+const cloudinary = require("cloudinary").v2;
 
 const register = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName, phone } = req.body;
@@ -265,6 +266,8 @@ const deleteUser = asyncHandler(async (req, res) => {
   const { uid } = req.params;
   if (!uid) throw new Error("Missing input");
   const response = await User.findByIdAndDelete({ _id: uid });
+  if (response && response.avatar)
+    cloudinary.uploader.destroy(response.fileNameAvatar);
   return res.status(200).json({
     success: response ? true : false,
     mes: response ? `User with email delete.` : "No user delete",
@@ -275,12 +278,21 @@ const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
   const { firstName, lastName, email, phone } = req.body;
   const data = { firstName, lastName, email, phone };
-  if (req.file) data.avatar = req.file.path;
-  if (!(id && firstName && lastName && email && phone))
+  if (req.file) {
+    data.avatar = req.file.path;
+    data.fileNameAvatar = req.file.filename;
+  }
+  if (!(id && firstName && lastName && email && phone)) {
+    cloudinary.uploader.destroy(req.file.filename);
     throw new Error("missing input");
+  }
+  const user = await User.findById({ _id: id });
   const response = await User.findByIdAndUpdate({ _id: id }, data, {
     new: true,
   }).select("-password -role -refreshToken");
+  if (req.file && !response) cloudinary.uploader.destroy(req.file.filename);
+  if (req.file && response && user.avatar)
+    cloudinary.uploader.destroy(user.fileNameAvatar);
   return res.status(200).json({
     success: response ? true : false,
     mes: response ? "updated." : "Some thing went wrong",

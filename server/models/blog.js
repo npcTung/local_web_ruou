@@ -14,6 +14,7 @@ var blogSchema = new mongoose.Schema(
       default:
         "https://img.freepik.com/free-photo/overhead-view-coffee-cup-keyboard-camera-paper-white-background_23-2148042112.jpg",
     },
+    fileNameImage: String,
     author: { type: String, default: "Admin" },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }

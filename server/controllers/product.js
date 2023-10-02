@@ -4,12 +4,10 @@ const slugify = require("slugify");
 const cloudinary = require("cloudinary").v2;
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { title, price, description, category, color } = req.body;
+  const { title, price, description, category } = req.body;
   const thumb = req?.files?.thumb[0]?.path;
   const images = req?.files?.images?.map((el) => el.path);
-  if (
-    !(title && description && category && color && thumb && images && price)
-  ) {
+  if (!(title && description && category && thumb && images && price)) {
     cloudinary.uploader.destroy(req.files.thumb[0].filename);
     cloudinary.api.delete_resources(
       req?.files?.images?.map((el) => el.filename)
@@ -17,8 +15,14 @@ const createProduct = asyncHandler(async (req, res) => {
     throw new Error("missing inputs");
   }
   req.body.slug = slugify(title);
-  if (thumb) req.body.thumb = thumb;
-  if (images) req.body.images = images;
+  if (thumb) {
+    req.body.thumb = thumb;
+    req.body.fileNameThumb = req.files.thumb[0].filename;
+  }
+  if (images) {
+    req.body.images = images;
+    req.body.fileNameImages = req?.files?.images?.map((el) => el.filename);
+  }
   const newProduct = await Product.create(req.body);
   return res.status(200).json({
     success: newProduct ? true : false,
@@ -114,12 +118,31 @@ const getProducts = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params;
   const files = req?.files;
-  if (files?.thumb) req.body.thumb = files?.thumb[0]?.path;
-  if (files?.images) req.body.images = files?.images?.map((el) => el.path);
+  if (files?.thumb) {
+    req.body.thumb = files?.thumb[0]?.path;
+    req.body.fileNameThumb = files?.thumb[0]?.filename;
+  }
+  if (files?.images) {
+    req.body.images = files?.images?.map((el) => el.path);
+    req.body.fileNameImages = files?.images?.map((el) => el.filename);
+  }
   if (req.body && req.body.title) req.body.slug = slugify(req.body.title);
+  const imageProduct = await Product.findById(pid);
   const updateProduct = await Product.findByIdAndUpdate(pid, req.body, {
     new: true,
   });
+  if (files && !updateProduct) {
+    cloudinary.uploader.destroy(req.files.thumb[0].filename);
+    cloudinary.api.delete_resources(
+      req?.files?.images?.map((el) => el.filename)
+    );
+  }
+  if (files && updateProduct) {
+    cloudinary.uploader.destroy(imageProduct.fileNameThumb);
+    cloudinary.api.delete_resources(
+      imageProduct.fileNameImages.map((el) => el)
+    );
+  }
   return res.status(200).json({
     success: updateProduct ? true : false,
     updatedProduct: updateProduct ? updateProduct : "cannot update products",
@@ -129,6 +152,16 @@ const updateProduct = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params;
   const deleteProduct = await Product.findByIdAndDelete(pid);
+  if (deleteProduct) {
+    cloudinary.uploader.destroy(deleteProduct.fileNameThumb);
+    cloudinary.uploader.destroy(deleteProduct.varriantis.fileNameThumb);
+    cloudinary.api.delete_resources(
+      deleteProduct.fileNameImages.map((el) => el)
+    );
+    cloudinary.api.delete_resources(
+      deleteProduct.varriantis.map((el) => el.fileNameImages)
+    );
+  }
   return res.status(200).json({
     success: deleteProduct ? true : false,
     updatedProduct: deleteProduct
@@ -207,8 +240,13 @@ const addVarriant = asyncHandler(async (req, res) => {
   const { price, color, quantity } = req.body;
   const thumb = req?.files?.thumb[0]?.path;
   const images = req?.files?.images?.map((el) => el.path);
-  if (!(title && color && thumb && images && price && quantity))
+  if (!(color && thumb && images && price && quantity)) {
+    cloudinary.uploader.destroy(req.files.thumb[0].filename);
+    cloudinary.api.delete_resources(
+      req?.files?.images?.map((el) => el.filename)
+    );
     throw new Error("missing inputs");
+  }
   const response = await Product.findByIdAndUpdate(
     pid,
     {
@@ -217,7 +255,9 @@ const addVarriant = asyncHandler(async (req, res) => {
           color,
           price,
           thumb,
+          fileNameThumb: req.files.thumb[0].filename,
           images,
+          fileNameImages: req?.files?.images?.map((el) => el.filename),
           quantity,
         },
       },
