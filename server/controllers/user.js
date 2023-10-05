@@ -46,7 +46,7 @@ const register = asyncHandler(async (req, res) => {
           </span>
         </p>
         <p>Vui lòng hoàn thành xác nhận trong vòng 5 phút.</p>
-        <p>Digital World</p>
+        <p>Wine House</p>
         <h5>
           <span style="color:rgb(119,119,119);font-size:13px">Đây là thư từ hệ thống, vui lòng không trả lời thư.</span>
         </h5>
@@ -55,7 +55,7 @@ const register = asyncHandler(async (req, res) => {
       await sendMail({
         email,
         html,
-        subject: "Hoàn tất đăng ký Digital World",
+        subject: "Hoàn tất đăng ký Wine House",
       });
     }
     setTimeout(async () => {
@@ -161,7 +161,7 @@ const createUsers = asyncHandler(async (req, res) => {
 });
 
 const forgotPassword = asyncHandler(async (req, res) => {
-  const { email } = req.user;
+  const { email } = req.body;
   if (!email) throw new Error("Missing email");
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");
@@ -173,10 +173,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
       <p>Chào bạn</p> <br />
       <p>
         Xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. 
-          <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Bấn vào đây</a>
+          <a href=${process.env.URL_CLIENT}/reset-password/${resetToken}>Bấn vào đây</a>
       </p>
       <p>Vui lòng hoàn thành xác nhận trong vòng 5 phút.</p>
-      <p>Digital World</p>
+      <p>Wine House</p>
       <h5>
         <span style="color:rgb(119,119,119);font-size:13px">Đây là thư từ hệ thống, vui lòng không trả lời thư.</span>
       </h5>

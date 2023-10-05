@@ -13,7 +13,7 @@ const getCategories = asyncHandler(async (req, res) => {
   const response = await category.find().select("-createdAt -updatedAt");
   return res.status(200).json({
     success: response ? true : false,
-    productCategories: response ? response : "cannot get product category",
+    categories: response ? response : "cannot get product category",
   });
 });
 
@@ -24,7 +24,7 @@ const updateCategory = asyncHandler(async (req, res) => {
   });
   return res.status(200).json({
     success: response ? true : false,
-    updatedCategory: response ? response : "cannot update product category",
+    updateCategories: response ? response : "cannot update product category",
   });
 });
 

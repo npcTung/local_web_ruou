@@ -1,0 +1,10 @@
+export { default as Public } from "./Public";
+export { default as Home } from "./Home";
+export { default as Login } from "./Login";
+export { default as Products } from "./Products";
+export { default as ProductCategory } from "./ProductCategory";
+export { default as News } from "./News";
+export { default as Introduce } from "./Introduce";
+export { default as Contact } from "./Contact";
+export { default as Blog } from "./Blog";
+export { default as ResetPassword } from "./ResetPassword";

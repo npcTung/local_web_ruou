@@ -4,8 +4,8 @@ const mongoose = require("mongoose"); // Erase if already required
 var categorySchema = new mongoose.Schema(
   {
     title: { type: String, required: true, unique: true, index: true },
-    brand: { type: String, required: true },
-    image: { type: String, required: true },
+    brand: { type: Array, required: true },
+    image: String,
   },
   { timeseries: true }
 );
