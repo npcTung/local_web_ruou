@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { Link } from "react-router-dom";
 import path from "ultils/path";
@@ -7,28 +7,18 @@ import { useSelector } from "react-redux";
 import { HomeProductNew } from "ultils/contans";
 
 const Collection = () => {
-  const [isHoverShow, setIsHoverShow] = useState(null);
   const { categories } = useSelector((state) => state.app);
   const data = categories?.concat(HomeProductNew);
   return (
     <Splide
-      options={{ rewind: true, perPage: 3, type: "loop" }}
+      options={{ rewind: true, perPage: 3, type: "loop", focus: "center" }}
       aria-label="React Splide Example"
       className="pt-10 pb-5"
     >
       {data
         ?.filter((el) => el?.brand.length > 0)
         ?.map((el) => (
-          <SplideSlide
-            key={el._id}
-            className="cursor-ew-resize"
-            onMouseEnter={() => {
-              setIsHoverShow(el._id);
-            }}
-            onMouseLeave={() => {
-              setIsHoverShow(null);
-            }}
-          >
+          <SplideSlide key={el._id} className="cursor-ew-resize">
             <div className="w-full h-[600px] relative">
               <img
                 src={el.image}
@@ -41,19 +31,17 @@ const Collection = () => {
                 <span className="text-2xl uppercase font-semibold">
                   {el.title}
                 </span>
-                {isHoverShow === el._id && (
-                  <div className="flex flex-col items-center justify-center gap-3">
-                    {el.brand.map((els, idx) => (
-                      <Link
-                        to={`/${path.PRODUCT}/${createSlug(el.title)}`}
-                        key={idx}
-                        className="text-gray-300 hover:text-white transition-all capitalize"
-                      >
-                        {els}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <div className="flex flex-col items-center justify-center gap-3">
+                  {el.brand.map((els, idx) => (
+                    <Link
+                      to={`/${path.PRODUCT}/${createSlug(el.title)}`}
+                      key={idx}
+                      className="text-gray-300 hover:text-white transition-all capitalize"
+                    >
+                      {els}
+                    </Link>
+                  ))}
+                </div>
                 <Link
                   to={
                     el.title === "Trang chủ"

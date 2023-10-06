@@ -9,7 +9,7 @@ const category = [
       "Rượu vang năm 1973",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_1_tadw1v.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_3_bx2y2h.jpg",
   },
   {
     cate: "Rượu thường",
@@ -33,7 +33,7 @@ const category = [
       "Rượu vodka beluga",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_4_inmnto.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_1_tadw1v.jpg",
   },
   {
     cate: "Rượu trong nước",
@@ -45,7 +45,7 @@ const category = [
       "Rượu gạo",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_1_tadw1v.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_4_inmnto.jpg",
   },
   {
     cate: "Cửa hàng",

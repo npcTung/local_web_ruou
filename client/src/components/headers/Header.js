@@ -8,9 +8,13 @@ import { showModal } from "store/app/appSlice";
 
 const { ImSearch } = icons;
 
-const Header = ({ dispatch }) => {
+const Header = ({ dispatch, fixed }) => {
   return (
-    <div className="w-full px-10 py-8">
+    <div
+      className={`w-full px-10 py-8 ${
+        fixed && "fixed z-10 top-0 bg-white shadow-md"
+      }`}
+    >
       <div className="grid grid-rows-1 grid-cols-10">
         <NavLink
           to={`/${path.HOME}`}

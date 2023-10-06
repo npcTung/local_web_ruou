@@ -20,7 +20,6 @@ const NewProduct = () => {
   useEffect(() => {
     fetchAllProducts();
   }, []);
-  console.log(productData);
   return (
     <div className="w-full">
       <div className="w-full flex flex-col items-center justify-center gap-5">

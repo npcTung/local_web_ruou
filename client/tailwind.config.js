@@ -3,6 +3,7 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}", "./public/index.html"],
   theme: {
     extend: {
+      width: { main: "1120px" },
       colors: {
         overlay90: "rgba(0,0,0,0.9)",
         overlay80: "rgba(0,0,0,0.8)",
@@ -61,6 +62,30 @@ module.exports = {
             opacity: "1;",
           },
         },
+        "slide-in-top": {
+          "0%": {
+            "-webkit-transform": "translateY(-100px);",
+            transform: "translateY(-100px);",
+            opacity: "0;",
+          },
+          "100%": {
+            "-webkit-transform": "translateY(0);",
+            transform: "translateY(0);",
+            opacity: "1;",
+          },
+        },
+        "slide-out-bottom": {
+          "0%": {
+            "-webkit-transform": "translateY(100px);",
+            transform: "translateY(100px);",
+            opacity: "0;",
+          },
+          "100%": {
+            "-webkit-transform": "translateY(0);",
+            transform: "translateY(0);",
+            opacity: "1;",
+          },
+        },
       },
       animation: {
         "slide-top":
@@ -69,6 +94,10 @@ module.exports = {
           "scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
         "fade-in":
           "fade-in 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;",
+        "slide-in-top":
+          "slide-in-top 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
+        "slide-out-bottom":
+          "slide-out-bottom 0.3s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;",
       },
     },
   },

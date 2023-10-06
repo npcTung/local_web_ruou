@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import {
   Blog,
@@ -19,10 +19,24 @@ import { useSelector } from "react-redux";
 import { Modal } from "components";
 import { getCurrent } from "store/user/asyncActions";
 import { ToastContainer } from "react-toastify";
+import icons from "ultils/icons";
+
+const { IoIosArrowUp } = icons;
 
 function App({ dispatch }) {
   const { isShowModal, modalChildren } = useSelector((state) => state.app);
   const { isLoggedIn } = useSelector((state) => state.user);
+  const [isOnTop, setIsOnTop] = useState(false);
+
+  const handleOnTop = () => {
+    const scrollPosition = window.scrollY;
+    if (scrollPosition > 500) {
+      setIsOnTop(true);
+    } else {
+      setIsOnTop(false);
+    }
+  };
+
   useEffect(() => {
     const setTimeoutId = setTimeout(() => {
       dispatch(getCategories());
@@ -31,9 +45,24 @@ function App({ dispatch }) {
     return () => clearTimeout(setTimeoutId);
   }, [isLoggedIn, dispatch]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleOnTop);
+    return () => {
+      window.removeEventListener("scroll", handleOnTop);
+    };
+  }, [500]);
+
   return (
     <div className="bg-white">
       {isShowModal && <Modal>{modalChildren}</Modal>}
+      {isOnTop && (
+        <div
+          className="w-14 h-14 p-5 shadow-md fixed bg-white bottom-5 right-5 z-50 rounded-md hover:text-lg transition-all cursor-pointer animate-fade-in"
+          onClick={() => window.scrollTo(0, 0)}
+        >
+          <IoIosArrowUp />
+        </div>
+      )}
       <Routes>
         {/* PUBLIC */}
         <Route path={path.PUBLIC} element={<Public />}>

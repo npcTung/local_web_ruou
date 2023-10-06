@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Collection,
+  Introduce,
   NewProduct,
   ProductStandOut,
   SplideProduct,
@@ -20,6 +21,9 @@ const Home = () => {
       </div>
       <div className="mt-20">
         <NewProduct />
+      </div>
+      <div className="my-20">
+        <Introduce />
       </div>
     </div>
   );

@@ -6,6 +6,14 @@ import Product from "assets/logo-image.png";
 import { createSlug, formatMoney, renderStarFromNumber } from "ultils/helpers";
 import * as apis from "apis";
 
+const optionConfig = {
+  rewind: true,
+  perPage: 3,
+  type: "loop",
+  autoplay: true,
+  focus: "center",
+};
+
 const SplideProduct = () => {
   const [productData, setProductData] = useState(null);
 
@@ -22,13 +30,7 @@ const SplideProduct = () => {
   }, []);
   return (
     <Splide
-      options={{
-        rewind: true,
-        perPage: 3,
-        type: "loop",
-        focus: "center",
-        autoplay: true,
-      }}
+      options={optionConfig}
       aria-label="React Splide Example"
       className="pt-10 px-5 pb-5"
     >

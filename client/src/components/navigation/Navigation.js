@@ -54,7 +54,11 @@ const Navigation = () => {
                 {categories?.map((el) => (
                   <div key={el._id} className="flex flex-col gap-5">
                     <NavLink
-                      to={`/${path.PRODUCT}/${createSlug(el.title)}`}
+                      to={
+                        el.title === "Cửa hàng"
+                          ? `/${path.HOME}`
+                          : `/${path.PRODUCT}/${createSlug(el.title)}`
+                      }
                       className={({ isActive }) =>
                         `${
                           isActive ? "text-black" : "text-gray-500"

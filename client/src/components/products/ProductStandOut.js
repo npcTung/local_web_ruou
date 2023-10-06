@@ -16,9 +16,8 @@ const ProductStandOut = () => {
   useEffect(() => {
     fetchAllProducts();
   }, []);
-  console.log(productData);
   return (
-    <div className="w-[1121px] mx-auto">
+    <div className="w-main mx-auto">
       <div className="w-full flex flex-col items-center justify-center gap-5">
         <div className="w-[100px] h-[50px]">
           <img
