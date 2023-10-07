@@ -18,7 +18,7 @@ const Button = ({
         }`}
         onClick={() => handleOnClick && handleOnClick()}
       >
-        <span className="flex items-center">
+        <span className="flex items-center gap-1">
           {iconAfter && <span>{iconAfter}</span>}
           <span>{name}</span>
           {iconBefore && <span>{iconBefore}</span>}

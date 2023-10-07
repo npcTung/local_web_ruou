@@ -1,17 +1,8 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo } from "react";
 import { InputSelect } from "components";
 import { sorts } from "ultils/contans";
 
-const TopProduct = () => {
-  const [sort, setSort] = useState();
-  const [limit, setLimit] = useState(12);
-  // CHANGE VALUE
-  const changeValue = useCallback(
-    (value) => {
-      setSort(value);
-    },
-    [sort]
-  );
+const TopProduct = ({ limit, setLimit, sort, changeValue }) => {
   return (
     <div className="w-full py-3 border-b flex justify-between gap-5">
       <div className="flex gap-3 items-center">

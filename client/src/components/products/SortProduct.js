@@ -1,13 +1,30 @@
-import React, { memo, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { createSlug } from "ultils/helpers";
+import React, { memo, useEffect, useState } from "react";
+import { NavLink, createSearchParams, useNavigate } from "react-router-dom";
+import { createSlug, formatMoney } from "ultils/helpers";
 import path from "ultils/path";
 import icons from "ultils/icons";
+import withBase from "hocs/withBase";
 
 const { MdOutlineClear } = icons;
 
-const SortProduct = ({ data }) => {
-  const [isShowSort, setIsShowSort] = useState(null);
+const SortProduct = ({ data, navigate, category, location }) => {
+  const [isShowOption, setIsShowOption] = useState(null);
+  const sort = data?.find((el) => el._id === isShowOption);
+
+  useEffect(() => {
+    const queries = {};
+    if (sort?.title) queries.color = sort.title;
+    else delete queries.color;
+    if (sort?.min) queries.min = sort.min;
+    else delete queries.min;
+    if (sort?.max) queries.max = sort.max;
+    else delete queries.max;
+    delete queries.page;
+    navigate({
+      pathname: location.pathname,
+      search: createSearchParams(queries).toString(),
+    });
+  }, [sort, category, location.pathname]);
   return (
     <div className="w-full">
       <ul className="flex flex-col justify-center gap-3 capitalize">
@@ -32,15 +49,33 @@ const SortProduct = ({ data }) => {
             ) : (
               <span
                 className={`${
-                  isShowSort === el._id
+                  isShowOption === el._id
                     ? "flex justify-between items-center text-red-500"
                     : "text-gray-500 hover:text-black transition-all"
                 }`}
-                title={el.title}
+                title={
+                  el.title ||
+                  (el.min === 0 && `Dưới ${formatMoney(el.max)}`) ||
+                  (el.max === 9999999 && `Trên ${formatMoney(el.min)}`) ||
+                  `${formatMoney(el.min)} - ${formatMoney(el.max)}`
+                }
               >
-                <span onClick={() => setIsShowSort(el._id)}>{el.title}</span>
-                {isShowSort === el._id && (
-                  <span onClick={() => setIsShowSort(null)}>
+                <span
+                  onClick={() => {
+                    setIsShowOption(el._id);
+                  }}
+                >
+                  {el.title ||
+                    (el.min === 0 && `Dưới ${formatMoney(el.max)}`) ||
+                    (el.max === 9999999 && `Trên ${formatMoney(el.min)}`) ||
+                    `${formatMoney(el.min)} - ${formatMoney(el.max)}`}
+                </span>
+                {isShowOption === el._id && (
+                  <span
+                    onClick={() => {
+                      setIsShowOption(null);
+                    }}
+                  >
                     <MdOutlineClear />
                   </span>
                 )}
@@ -53,4 +88,4 @@ const SortProduct = ({ data }) => {
   );
 };
 
-export default memo(SortProduct);
+export default withBase(memo(SortProduct));

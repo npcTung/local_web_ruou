@@ -28,6 +28,10 @@ export { default as Introduce } from "./products/Introduce";
 export { default as SortProduct } from "./products/SortProduct";
 export { default as ProductSiderBar } from "./products/ProductSiderBar";
 export { default as TopProduct } from "./products/TopProduct";
+export { default as Product } from "./products/Product";
 // footers
 export { default as TopFooter } from "./footers/TopFooter";
 export { default as Footer } from "./footers/Footer";
+// pagination
+export { default as Pagination } from "./pagination/Pagination";
+export { default as PagiItem } from "./pagination/PagiItem";

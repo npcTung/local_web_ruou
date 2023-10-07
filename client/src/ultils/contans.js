@@ -91,7 +91,7 @@ export const colorProduct = [
   },
   {
     _id: 4,
-    title: "dark",
+    title: "black",
   },
   {
     _id: 5,
@@ -118,23 +118,28 @@ export const colorProduct = [
 export const sortPrice = [
   {
     _id: 1,
-    title: "Dưới 1,000,000",
+    min: 0,
+    max: 1000000,
   },
   {
     _id: 2,
-    title: "1,000,000 - 3,000,000",
+    min: 1000000,
+    max: 3000000,
   },
   {
     _id: 3,
-    title: "3,000,000 - 6,000,000",
+    min: 3000000,
+    max: 6000000,
   },
   {
     _id: 4,
-    title: "6,000,000 - 8,000,000",
+    min: 6000000,
+    max: 8000000,
   },
   {
     _id: 5,
-    title: "Trên 8,000,000",
+    min: 8000000,
+    max: 9999999,
   },
 ];
 // SORTS
@@ -172,7 +177,7 @@ export const sorts = [
   {
     id: 7,
     value: "createdAt",
-    text: "Ngày, cú đến mới",
+    text: "Ngày, cũ đến mới",
   },
   {
     id: 8,

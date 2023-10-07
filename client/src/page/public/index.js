@@ -8,3 +8,4 @@ export { default as Introduce } from "./Introduce";
 export { default as Contact } from "./Contact";
 export { default as Blog } from "./Blog";
 export { default as ResetPassword } from "./ResetPassword";
+export { default as DetailProduct } from "./DetailProduct";

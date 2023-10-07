@@ -12,7 +12,7 @@ const { MdOutlineClear } = icons;
 const Profile = ({ dispatch, userData }) => {
   return (
     <div
-      className="bg-white rounded-md relative"
+      className="bg-white rounded-md relative animate-scale-in-center"
       onClick={(e) => e.stopPropagation()}
     >
       <span
@@ -28,10 +28,12 @@ const Profile = ({ dispatch, userData }) => {
         <h3 className="uppercase bg-sky-500 p-3 rounded-t-md text-white text-xl text-center font-semibold">
           tài khoản của bạn
         </h3>
-        <div className="w-full flex items-center justify-center">
+        <div className="flex items-center justify-center relative">
           <div
-            className={`w-[50px] h-[50px] rounded-full border p-1 ${
+            className={`w-[100px] h-[100px] rounded-full border p-1 ${
               userData.isBlocked ? "border-red-500" : "border-green-500"
+            } ${
+              userData.isBlocked ? "avatar-after-true" : "avatar-after-false"
             }`}
           >
             <img
@@ -41,7 +43,7 @@ const Profile = ({ dispatch, userData }) => {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-1 p-3">
+        <div className="flex flex-col gap-1 px-10">
           <span>{`Tên tài khoản: ${userData?.firstName} ${userData?.lastName}`}</span>
           <span>{`Mã thành viên: #${userData?._id}`}</span>
           <span>{`Ngày tạo: ${moment(userData?.createdAt).format(
@@ -56,7 +58,7 @@ const Profile = ({ dispatch, userData }) => {
             Thông tin tài khoản
           </Link>
           <span>/</span>
-          {userData?.role === 2002 && (
+          {+userData?.role === 2002 && (
             <>
               <Link
                 to={"#"}

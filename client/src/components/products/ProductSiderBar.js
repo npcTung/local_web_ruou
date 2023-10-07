@@ -8,9 +8,10 @@ import path from "ultils/path";
 import { createSlug, formatMoney, renderStarFromNumber } from "ultils/helpers";
 import Product from "assets/logo-image.png";
 
-const ProductSiderBar = () => {
+const ProductSiderBar = ({ category }) => {
   const { categories } = useSelector((state) => state.app);
   const [productData, setProductData] = useState(null);
+
   const fetchAllProducts = async () => {
     const response = await apis.apiGetAllProduct({ sort: "sold", limit: 5 });
     if (response.success) setProductData(response.products);
@@ -27,10 +28,10 @@ const ProductSiderBar = () => {
       </div>
       <div className="w-full border-b py-6 flex flex-col gap-8">
         <h3 className="text-lg font-bold">Màu Sắc</h3>
-        <SortProduct data={colorProduct} />
+        <SortProduct data={colorProduct} category={category} />
       </div>
       <div className="w-full border-b py-6 flex flex-col gap-8">
-        <h3 className="text-lg font-bold">Thương Hiệu</h3>
+        <h3 className="text-lg font-bold">Giá Tiền(VNĐ)</h3>
         <SortProduct data={sortPrice} />
       </div>
       <div className="w-full py-6 flex flex-col gap-8">

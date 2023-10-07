@@ -1,14 +1,15 @@
 import React, { memo } from "react";
+import withBase from "hocs/withBase";
 import { Link } from "react-router-dom";
 import icons from "ultils/icons";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 
 const { MdOutlineKeyboardArrowRight } = icons;
 
-const Breadcrumbs = ({ title, category, product }) => {
+const Breadcrumbs = ({ title, category, product, location }) => {
   const routes = [
     { path: "/", breadcrumb: "home" },
-    { path: "/products", breadcrumb: product },
+    { path: `/${location.pathname.split("/")[1]}`, breadcrumb: product },
     {
       path: "/products/:category",
       breadcrumb: category?.toLowerCase(),
@@ -39,4 +40,4 @@ const Breadcrumbs = ({ title, category, product }) => {
   );
 };
 
-export default memo(Breadcrumbs);
+export default withBase(memo(Breadcrumbs));

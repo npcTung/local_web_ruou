@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import {
   Blog,
   Contact,
+  DetailProduct,
   Home,
   Introduce,
   Login,
@@ -72,6 +73,10 @@ function App({ dispatch }) {
           <Route
             path={`${path.PRODUCT}/${path.PRODUCT_CATEGORY}`}
             element={<ProductCategory />}
+          />
+          <Route
+            path={`${path.PRODUCT}/${path.PRODUCT_CATEGORY}/${path.DETAIL_PRODUCT__PID__TITLE}`}
+            element={<DetailProduct />}
           />
           <Route path={path.NEWS} element={<News />} />
           <Route path={path.INTRODUCE} element={<Introduce />} />
