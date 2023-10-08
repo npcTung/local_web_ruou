@@ -1,39 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Breadcrumbs } from "components";
+import React, { useCallback, useEffect, useState } from "react";
+import { Breadcrumbs, Comment, ProductInfomation, Product } from "components";
 import * as apis from "apis";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { formatMoney, renderStarFromNumber } from "ultils/helpers";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import Product from "assets/logo-image.png";
+import Product_image from "assets/logo-image.png";
+import Wrapper from "assets/wrapper.svg";
 
-// const optionConfig = {
-//   rewind: true,
-//   perPage: 1,
-//   type: "loop",
-//   autoplay: true,
-//   focus: "center",
-// };
+const tab_list = ["Mô tả", "Chính sách vận chuyển", "Phản hồi khách hàng"];
 
 const DetailProduct = () => {
   const { pid } = useParams();
   const [productData, setProductData] = useState(null);
   const [showImage, setShowImage] = useState(productData?.thumb);
+  const [tapList, setTapList] = useState(0);
+  const [update, setUpdate] = useState(false);
+  const [products, setProducts] = useState(null);
   // CALL API PRODUCT
   const fetchProduct = async (pid) => {
     const ressponse = await apis.apiGetProduct(pid);
     if (ressponse.success) setProductData(ressponse.productData);
   };
+  // CALL API ALL PRODUCT
+  const fetchALLProduct = async () => {
+    const ressponse = await apis.apiGetAllProduct({
+      limit: 7,
+      category: productData?.category,
+    });
+    if (ressponse.success) setProducts(ressponse.products);
+  };
+  const rerender = useCallback(() => {
+    setUpdate(!update);
+  }, [update]);
+
   useEffect(() => {
     if (pid) fetchProduct(pid);
-  }, [pid]);
+    fetchALLProduct();
+  }, [pid, update]);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full pb-10">
       <div className="w-main mx-auto py-20 grid grid-cols-2 items-center gap-10">
         <div className="col-span-1 flex flex-col gap-5 p-2">
           <div className="w-full h-full">
             <img
-              src={showImage || productData?.thumb || Product}
+              src={showImage || productData?.thumb || Product_image}
               alt={productData?.title.toLowerCase()}
               className="w-full h-full object-contain"
             />
@@ -58,7 +69,7 @@ const DetailProduct = () => {
                 onClick={() => setShowImage(el)}
               >
                 <img
-                  src={el || Product}
+                  src={el || Product_image}
                   alt={productData?.title.toLowerCase()}
                   className="w-full h-full object-contain"
                 />
@@ -72,21 +83,23 @@ const DetailProduct = () => {
             category={productData?.category}
             title={productData?.title}
           />
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl uppercase font-semibold py-6 border-b">
+          <div className="flex items-center justify-between border-b">
+            <h3 className="text-xl uppercase font-semibold py-6">
               {productData?.title}
             </h3>
             <span className="flex flex-col justify-center items-end gap-1 text-red-500 opacity-70">
               <span>{`Kho: ${productData?.quantity}`}</span>
               <span>{`Đã bán: ${productData?.sold}`}</span>
-              <span></span>
             </span>
           </div>
           <div className="flex gap-2">
             <span className="flex items-center gap-1 text-yellow-500">
               {renderStarFromNumber(productData?.totalRatings)}
             </span>
-            <span className="opacity-70">{`(${productData?.ratings.length} viewers)`}</span>
+            <a
+              href={"#comment"}
+              className="opacity-70 hover:text-blue-500 hover:underline transition-all"
+            >{`(${productData?.ratings.length} đánh giá)`}</a>
           </div>
           <span className="text-xl font-medium">{`${formatMoney(
             productData?.price
@@ -94,6 +107,12 @@ const DetailProduct = () => {
           <div>add to card</div>
           <span className="line-clamp-6">{productData?.description}</span>
           <span>{`Mã hàng: #${pid}`}</span>
+          <div className="flex gap-2 capitalize">
+            <span>Color:</span>
+            {productData?.color && (
+              <span>{productData?.color.toLowerCase()}</span>
+            )}
+          </div>
           <div className="flex items-center gap-1 capitalize border-b pb-6">
             <span>Thể loại:</span>
             <span>{productData?.category}</span>
@@ -113,6 +132,84 @@ const DetailProduct = () => {
           </div>
         </div>
       </div>
+      <div className="w-full bg-[#f6f6f6] p-20">
+        <div className="w-main mx-auto">
+          <div className="w-full pb-10 border-b-2 border-gray-300 flex items-center gap-20 text-xl font-medium">
+            {tab_list.map((el, idx) => (
+              <span
+                key={idx}
+                className={`${
+                  tapList === idx
+                    ? "text-black"
+                    : "text-gray-500 hover:text-black transition-all"
+                } cursor-pointer`}
+                onClick={() => setTapList(idx)}
+              >
+                {el}
+              </span>
+            ))}
+          </div>
+          <div className="w-full py-10">
+            <ProductInfomation
+              data={productData}
+              tapList={tapList}
+              nameProduct={productData?.title.toLowerCase()}
+              pid={pid}
+              rerender={rerender}
+            />
+          </div>
+          {productData?.ratings.length > 0 && (
+            <div
+              id="comment"
+              className="w-full bg-white shadow-md p-10 rounded-md flex flex-col justify-center gap-5"
+            >
+              <h3 className="text-xl font-semibold">Đánh giá của người dùng</h3>
+              {productData.ratings
+                .filter((el) => el.posteBy !== null)
+                .map((el) => (
+                  <Comment
+                    key={el._id}
+                    data={el}
+                    updated={productData?.updatedAt}
+                  />
+                ))}
+            </div>
+          )}
+        </div>
+      </div>
+      {products && (
+        <div className="w-main mx-auto p-20">
+          <div className="w-full flex flex-col items-center justify-center gap-5">
+            <div className="w-[100px] h-[50px]">
+              <img
+                src={Wrapper}
+                alt="Wrapper"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <h1 className="text-3xl font-semibold uppercase">
+              Sản phẩm liên quan
+            </h1>
+          </div>
+          <Splide
+            options={{
+              rewind: true,
+              perPage: 4,
+              type: "loop",
+              autoplay: true,
+              focus: "center",
+            }}
+            aria-label="React Splide Example"
+            className="cursor-ew-resize py-5 my-5"
+          >
+            {products?.map((el) => (
+              <SplideSlide key={el._id} className="">
+                <Product data={el} />
+              </SplideSlide>
+            ))}
+          </Splide>
+        </div>
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ import { HiArrowLongRight, HiHeart } from "react-icons/hi2";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa6";
 import { RiLinkedinFill } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
-import { BiSolidCartAdd } from "react-icons/bi";
+import { BiSolidCartAdd, BiTimeFive } from "react-icons/bi";
 
 const icons = {
   ImSearch,
@@ -29,6 +29,7 @@ const icons = {
   BiSolidCartAdd,
   HiHeart,
   BsThreeDots,
+  BiTimeFive,
 };
 
 export default icons;

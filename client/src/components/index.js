@@ -29,9 +29,14 @@ export { default as SortProduct } from "./products/SortProduct";
 export { default as ProductSiderBar } from "./products/ProductSiderBar";
 export { default as TopProduct } from "./products/TopProduct";
 export { default as Product } from "./products/Product";
+export { default as ProductInfomation } from "./products/ProductInfomation";
 // footers
 export { default as TopFooter } from "./footers/TopFooter";
 export { default as Footer } from "./footers/Footer";
 // pagination
 export { default as Pagination } from "./pagination/Pagination";
 export { default as PagiItem } from "./pagination/PagiItem";
+// votes
+export { default as VoteBar } from "./votes/VoteBar";
+export { default as VoteOption } from "./votes/VoteOption";
+export { default as Comment } from "./votes/Comment";

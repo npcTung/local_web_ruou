@@ -8,7 +8,7 @@ const Modal = ({ children, dispatch }) => {
       onClick={() =>
         dispatch(showModal({ isShowModal: false, modalChildren: null }))
       }
-      className="fixed inset-0 bg-overlay60 z-50 flex justify-center items-center"
+      className="fixed inset-0 bg-overlay60 z-[70] flex justify-center items-center"
     >
       {children}
     </div>

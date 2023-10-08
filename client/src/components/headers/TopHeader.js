@@ -25,7 +25,7 @@ const TopHeader = ({ dispatch, navigate }) => {
       {isLoggedIn && currentData && (
         <div className="flex py-5 gap-3 items-center">
           <div
-            className={`w-[35px] h-[35px] rounded-full border p-1 ${
+            className={`w-[35px] h-[35px] rounded-full border p-[1px] ${
               currentData.isBlocked ? "border-red-500" : "border-green-500"
             }`}
           >

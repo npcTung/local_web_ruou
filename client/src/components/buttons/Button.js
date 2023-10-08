@@ -10,12 +10,10 @@ const Button = ({
   handleOnClick,
 }) => {
   return (
-    <div className="w-full">
+    <div className={wf ? "w-full" : "w-fit"}>
       <button
         type={type}
-        className={`uppercase btn ${styles ? styles : "text-white"} ${
-          wf ? "w-full" : "w-fit"
-        }`}
+        className={`uppercase btn ${styles ? styles : "text-white"} w-full`}
         onClick={() => handleOnClick && handleOnClick()}
       >
         <span className="flex items-center gap-1">

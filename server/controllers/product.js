@@ -35,7 +35,7 @@ const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(pid).populate({
     path: "ratings",
     populate: {
-      path: "postedBy",
+      path: "posteBy",
       select: "firstName lastName avatar",
     },
   });
@@ -176,7 +176,7 @@ const ratings = asyncHandler(async (req, res) => {
   if (!star || !pid) throw new Error("Missing inputs");
   const ratingProduct = await Product.findById(pid);
   const alreadyRating = ratingProduct?.ratings?.find(
-    (el) => el.postedBy.toString() === id
+    (el) => el.posteBy.toString() === id
   );
   if (alreadyRating) {
     // update star & comment
@@ -198,7 +198,7 @@ const ratings = asyncHandler(async (req, res) => {
     await Product.findByIdAndUpdate(
       pid,
       {
-        $push: { ratings: { star, comment, postedBy: id, updatedAt } },
+        $push: { ratings: { star, comment, posteBy: id, updatedAt } },
       },
       { new: true }
     );

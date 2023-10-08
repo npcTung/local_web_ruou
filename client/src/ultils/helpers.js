@@ -38,3 +38,11 @@ export const getBase64 = (file) => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export function seconsToHms(d) {
+  d = Number(d) / 1000;
+  const h = Math.floor(d / 3600);
+  const m = Math.floor((d % 3600) / 60);
+  const s = Math.floor((d % 3600) % 60);
+  return { h, m, s };
+}

@@ -10,18 +10,11 @@ const { BiSolidCartAdd, HiHeart, ImSearch } = icons;
 
 const Product = ({ data }) => {
   const [isShowOption, setIsShowOption] = useState(null);
-  const [image, setImage] = useState(null);
   return (
     <div
       className="col-span-1 p-2 flex flex-col items-center justify-center"
-      onMouseEnter={() => {
-        setIsShowOption(data._id);
-        setImage(data.images[0]);
-      }}
-      onMouseLeave={() => {
-        setIsShowOption(null);
-        setImage(null);
-      }}
+      onMouseEnter={() => setIsShowOption(data._id)}
+      onMouseLeave={() => setIsShowOption(null)}
     >
       <div className="w-full h-full overflow-hidden relative">
         {isShowOption && isShowOption === data?._id && (
@@ -57,7 +50,7 @@ const Product = ({ data }) => {
           className="w-full h-full"
         >
           <img
-            src={isShowOption ? image : data?.thumb || product}
+            src={data?.thumb || product}
             alt={data?.title.toLowerCase()}
             className="w-full h-full object-contain"
           />

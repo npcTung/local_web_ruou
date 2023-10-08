@@ -19,7 +19,7 @@ const SplideProduct = () => {
 
   const fetchAllProduct = async () => {
     const response = await apis.apiGetAllProduct({
-      sort: "-createdAt",
+      sort: "-totalRatings",
       limit: 7,
     });
     if (response.success) setProductData(response.products);

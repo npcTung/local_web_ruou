@@ -1,4 +1,7 @@
 import path from "./path";
+import icons from "./icons";
+
+const { BsStar, BsStarFill } = icons;
 
 // NAVIGATION
 export const navigation = [
@@ -183,5 +186,38 @@ export const sorts = [
     id: 8,
     value: "-createdAt",
     text: "Ngày, mới đến cũ",
+  },
+];
+// RATINGS
+export const ratings = [
+  {
+    id: 1,
+    title: "Rất tệ",
+    icon: <BsStar />,
+    iconClick: <BsStarFill />,
+  },
+  {
+    id: 2,
+    title: "Tệ",
+    icon: <BsStar />,
+    iconClick: <BsStarFill />,
+  },
+  {
+    id: 3,
+    title: "Bình thường",
+    icon: <BsStar />,
+    iconClick: <BsStarFill />,
+  },
+  {
+    id: 4,
+    title: "Tốt",
+    icon: <BsStar />,
+    iconClick: <BsStarFill />,
+  },
+  {
+    id: 5,
+    title: "Rất tốt",
+    icon: <BsStar />,
+    iconClick: <BsStarFill />,
   },
 ];

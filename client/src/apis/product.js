@@ -12,3 +12,10 @@ export const apiGetProduct = (pid) =>
     url: "/product/" + pid,
     method: "get",
   });
+
+export const apiRatings = (data) =>
+  axiosConfig({
+    url: "/product/ratings",
+    method: "put",
+    data,
+  });
