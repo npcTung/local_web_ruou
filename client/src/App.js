@@ -21,6 +21,14 @@ import { Modal } from "components";
 import { getCurrent } from "store/user/asyncActions";
 import { ToastContainer } from "react-toastify";
 import icons from "ultils/icons";
+import {
+  Admin,
+  CreateProduct,
+  DashBoard,
+  ManagerOrder,
+  ManagerProduct,
+  ManagerUser,
+} from "page/admin";
 
 const { IoIosArrowUp } = icons;
 
@@ -44,7 +52,7 @@ function App({ dispatch }) {
       if (isLoggedIn) dispatch(getCurrent());
     }, 1000);
     return () => clearTimeout(setTimeoutId);
-  }, [isLoggedIn, dispatch]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleOnTop);
@@ -87,6 +95,17 @@ function App({ dispatch }) {
         <Route path={path.LOGIN} element={<Login />} />
         {/* RESET PASSWORD */}
         <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+        {/* ADMIN */}
+        <Route path={`${path.ADMIN}`} element={<Admin />}>
+          <Route path={`${path.DASH_BOARD}`} element={<DashBoard />} />
+          <Route
+            path={`${path.MANAGER_PRODUCT}`}
+            element={<ManagerProduct />}
+          />
+          <Route path={`${path.MANAGER_USER}`} element={<ManagerUser />} />
+          <Route path={`${path.MANAGER_ORDER}`} element={<ManagerOrder />} />
+          <Route path={`${path.CREATE_PRODUCT}`} element={<CreateProduct />} />
+        </Route>
       </Routes>
       <ToastContainer
         position="top-right"

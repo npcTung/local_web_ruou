@@ -1,8 +1,20 @@
 import path from "./path";
 import icons from "./icons";
 
-const { BsStar, BsStarFill } = icons;
-
+// ICON
+const {
+  BsStar,
+  BsStarFill,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  RiLinkedinFill,
+  AiOutlineDashboard,
+  MdGroups,
+  TbBrandProducthunt,
+  MdOutlineCreate,
+  RiBillLine,
+} = icons;
 // NAVIGATION
 export const navigation = [
   {
@@ -219,5 +231,54 @@ export const ratings = [
     title: "Rất tốt",
     icon: <BsStar />,
     iconClick: <BsStarFill />,
+  },
+];
+// ICONS FOOTER
+export const iconFooter = [
+  <FaFacebookF />,
+  <FaTwitter />,
+  <FaInstagram />,
+  <RiLinkedinFill />,
+];
+// ADMIN SIDEBAR
+export const adminSidebar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Bảng điều khiển",
+    path: `/${path.ADMIN}/${path.DASH_BOARD}`,
+    icon: <AiOutlineDashboard />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "Quản lý tài khoản người dùng",
+    path: `/${path.ADMIN}/${path.MANAGER_USER}`,
+    icon: <MdGroups />,
+  },
+  {
+    id: 3,
+    type: "PAREMT",
+    text: "Quản lý sản phẩm",
+    icon: <TbBrandProducthunt />,
+    submenu: [
+      {
+        text: "Tạo sản phẩm",
+        path: `/${path.ADMIN}/${path.CREATE_PRODUCT}`,
+        subIcon: <MdOutlineCreate />,
+      },
+      {
+        text: "Quản lý sản phẩm",
+        path: `/${path.ADMIN}/${path.MANAGER_PRODUCT}`,
+        subIcon: <TbBrandProducthunt />,
+      },
+    ],
+  },
+  {
+    id: 4,
+    type: "SINGLE",
+    text: "Quản lý đơn hàng",
+    path: `/${path.ADMIN}/${path.MANAGER_ORDER}`,
+    icon: <RiBillLine />,
   },
 ];

@@ -1,11 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Breadcrumbs, Comment, ProductInfomation, Product } from "components";
+import {
+  Breadcrumbs,
+  Comment,
+  ProductInfomation,
+  Product,
+  SelectQuantity,
+  Button,
+} from "components";
 import * as apis from "apis";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { formatMoney, renderStarFromNumber } from "ultils/helpers";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import Product_image from "assets/logo-image.png";
 import Wrapper from "assets/wrapper.svg";
+import icons from "ultils/icons";
+
+const { HiHeart } = icons;
 
 const tab_list = ["Mô tả", "Chính sách vận chuyển", "Phản hồi khách hàng"];
 
@@ -16,6 +26,7 @@ const DetailProduct = () => {
   const [tapList, setTapList] = useState(0);
   const [update, setUpdate] = useState(false);
   const [products, setProducts] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   // CALL API PRODUCT
   const fetchProduct = async (pid) => {
     const ressponse = await apis.apiGetProduct(pid);
@@ -29,9 +40,31 @@ const DetailProduct = () => {
     });
     if (ressponse.success) setProducts(ressponse.products);
   };
+  // RE-RENDER
   const rerender = useCallback(() => {
     setUpdate(!update);
   }, [update]);
+  // QUANTITY
+  const handaleQuantity = useCallback(
+    (number) => {
+      if (Number(number) >= 1 && Number(number) <= +productData?.quantity)
+        setQuantity(number);
+    },
+    [quantity]
+  );
+  // CHANGE QUANTITY
+  const handaleChargeQuantity = useCallback(
+    (flag) => {
+      if (+productData?.quantity === 0) return;
+      else {
+        if (flag === "minus" && quantity === 1) return;
+        else if (flag === "plus" && quantity >= productData?.quantity) return;
+        else if (flag === "minus") setQuantity((prev) => +prev - 1);
+        else if (flag === "plus") setQuantity((prev) => +prev + 1);
+      }
+    },
+    [quantity]
+  );
 
   useEffect(() => {
     if (pid) fetchProduct(pid);
@@ -104,7 +137,23 @@ const DetailProduct = () => {
           <span className="text-xl font-medium">{`${formatMoney(
             productData?.price
           )} VNĐ`}</span>
-          <div>add to card</div>
+          <div className="w-full flex items-center gap-10">
+            <SelectQuantity
+              quantity={quantity}
+              handaleQuantity={handaleQuantity}
+              handaleChargeQuantity={handaleChargeQuantity}
+              quantityProduct={productData?.quantity}
+            />
+            <Button
+              name={"Thêm vào giỏ hàng"}
+              styles={
+                "border-2 border-black hover:bg-black hover:text-white bg-transparent"
+              }
+            />
+            <span className="px-5 py-3 rounded-md border-2 text-gray-500 hover:text-black hover:border-black transition-all cursor-pointer">
+              <HiHeart size={20} />
+            </span>
+          </div>
           <span className="line-clamp-6">{productData?.description}</span>
           <span>{`Mã hàng: #${pid}`}</span>
           <div className="flex gap-2 capitalize">

@@ -14,6 +14,11 @@ const path = {
   RESET_PASSWORD: "reset-password/:token",
   // ADMIN
   ADMIN: "admin",
+  DASH_BOARD: "dash-board",
+  MANAGER_USER: "manager-user",
+  MANAGER_PRODUCT: "manager-product",
+  MANAGER_ORDER: "manager-order",
+  CREATE_PRODUCT: "create-product",
   // MEMBER
   MEMBER: "member",
 };

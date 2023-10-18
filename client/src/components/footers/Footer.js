@@ -1,17 +1,11 @@
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { footerInfo } from "ultils/contans";
-import icons from "ultils/icons";
+import { footerInfo, iconFooter } from "ultils/contans";
 import path from "ultils/path";
+import icons from "ultils/icons";
 
-const {
-  HiArrowLongRight,
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  RiLinkedinFill,
-} = icons;
+const { HiArrowLongRight } = icons;
 
 const Footer = () => {
   const [isShow, setIsShow] = useState(false);
@@ -60,18 +54,14 @@ const Footer = () => {
           </span>
         </div>
         <ul className="flex gap-10 items-center h-5">
-          <li className="text-gray-500 hover:text-black hover:pb-2 transition-all">
-            <FaFacebookF />
-          </li>
-          <li className="text-gray-500 hover:text-black hover:pb-2 transition-all">
-            <FaTwitter />
-          </li>
-          <li className="text-gray-500 hover:text-black hover:pb-2 transition-all">
-            <FaInstagram />
-          </li>
-          <li className="text-gray-500 hover:text-black hover:pb-2 transition-all">
-            <RiLinkedinFill />
-          </li>
+          {iconFooter.map((el, idx) => (
+            <li
+              key={idx}
+              className="text-gray-500 hover:text-black hover:pb-2 transition-all"
+            >
+              {el}
+            </li>
+          ))}
         </ul>
         <div className="flex flex-col gap-2 items-center justify-center">
           <span>2016 EngoTheme. All Rights Reserved</span>

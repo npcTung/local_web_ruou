@@ -39,3 +39,16 @@ export const apiResetPassword = (data) =>
     method: "put",
     data,
   });
+
+export const apiGetAllUsers = (params) =>
+  axiosConfig({
+    url: "/user",
+    method: "get",
+    params,
+  });
+
+export const apiDeleteUser = (uid) =>
+  axiosConfig({
+    url: "/user/" + uid,
+    method: "delete",
+  });

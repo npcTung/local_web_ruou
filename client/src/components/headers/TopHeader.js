@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import path from "ultils/path";
@@ -6,9 +6,11 @@ import Avatar from "assets/user.png";
 import withBase from "hocs/withBase";
 import { showModal } from "store/app/appSlice";
 import { Profile } from "components";
+import Swal from "sweetalert2";
+import { clearMessages } from "store/user/appSlice";
 
 const TopHeader = ({ dispatch, navigate }) => {
-  const { isLoggedIn, currentData } = useSelector((state) => state.user);
+  const { isLoggedIn, currentData, mes } = useSelector((state) => state.user);
 
   const goLogin = useCallback(
     (flag) => {
@@ -16,6 +18,15 @@ const TopHeader = ({ dispatch, navigate }) => {
     },
     [navigate]
   );
+
+  useEffect(() => {
+    if (mes)
+      Swal.fire("Oops!", mes, "info").then(() => {
+        navigate(`/${path.LOGIN}`);
+        dispatch(clearMessages());
+      });
+  }, [mes, navigate, dispatch]);
+
   return (
     <div
       className={`w-full flex items-center ${
@@ -32,7 +43,7 @@ const TopHeader = ({ dispatch, navigate }) => {
             <img
               src={currentData?.avatar || Avatar}
               alt="avatar"
-              className="w-full h-full object-contain rounded-full"
+              className="w-full h-full object-cover rounded-full"
             />
           </div>
         </div>

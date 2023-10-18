@@ -46,7 +46,11 @@ const Collection = () => {
                   to={
                     el.title === "Trang chủ"
                       ? `/${path.HOME}`
-                      : `/${path.PRODUCT}/${createSlug(el.title)}`
+                      : `/${path.PRODUCT}${`${
+                          el.title === "Sản phẩm mới"
+                            ? ""
+                            : `/${createSlug(el.title)}`
+                        }`}`
                   }
                   className="border rounded-md px-8 py-2 uppercase hover:bg-white hover:text-black transition-all font-medium"
                 >

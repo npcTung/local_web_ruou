@@ -12,10 +12,12 @@ export { default as InputSelect } from "./inputs/InputSelect";
 export { default as Modal } from "./common/Modal";
 export { default as Loading } from "./common/Loading";
 export { default as Breadcrumbs } from "./common/Breadcrumbs";
+export { default as SelectQuantity } from "./common/SelectQuantity";
 // search
 export { default as SeachHeader } from "./search/SeachHeader";
 // users
 export { default as Profile } from "./users/Profile";
+export { default as EditUserAdmin } from "./users/EditUserAdmin";
 // auth
 export { default as FinalRegister } from "./auth/FinalRegister";
 export { default as ForgotPassword } from "./auth/ForgotPassword";
@@ -40,3 +42,5 @@ export { default as PagiItem } from "./pagination/PagiItem";
 export { default as VoteBar } from "./votes/VoteBar";
 export { default as VoteOption } from "./votes/VoteOption";
 export { default as Comment } from "./votes/Comment";
+// sidebar
+export { default as AdminSidebar } from "./sidebars/AdminSidebar";

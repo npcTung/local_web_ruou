@@ -6,6 +6,7 @@ import Avatar from "assets/user.png";
 import { Link } from "react-router-dom";
 import { logout } from "store/user/appSlice";
 import moment from "moment/moment";
+import path from "ultils/path";
 
 const { MdOutlineClear } = icons;
 
@@ -31,15 +32,15 @@ const Profile = ({ dispatch, userData }) => {
         <div className="flex items-center justify-center relative">
           <div
             className={`w-[100px] h-[100px] rounded-full border p-1 ${
-              userData.isBlocked ? "border-red-500" : "border-green-500"
-            } ${
-              userData.isBlocked ? "avatar-after-true" : "avatar-after-false"
+              userData.isBlocked
+                ? "border-red-500 avatar-after-true"
+                : "border-green-500 avatar-after-false"
             }`}
           >
             <img
               src={userData?.avatar || Avatar}
               alt={`Avatar ${userData?.firstName} ${userData?.lastName}`}
-              className="w-full h-full object-contain rounded-full"
+              className="w-full h-full object-cover rounded-full"
             />
           </div>
         </div>
@@ -61,8 +62,14 @@ const Profile = ({ dispatch, userData }) => {
           {+userData?.role === 2002 && (
             <>
               <Link
-                to={"#"}
+                to={`/${path.ADMIN}/${path.DASH_BOARD}`}
+                target="_blank"
                 className="whitespace-nowrap hover:underline transition-all"
+                onClick={() =>
+                  dispatch(
+                    showModal({ isShowModal: false, modalChildren: null })
+                  )
+                }
               >
                 Quản trị viên
               </Link>
