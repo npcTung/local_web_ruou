@@ -19,7 +19,7 @@ const AdminSidebar = () => {
   }, [activeClick]);
 
   return (
-    <div className="w-[20%] fixed top-0 bottom-0 border-r">
+    <div className="w-[20%] fixed top-0 bottom-0 border-r shadow-md">
       <div className="w-full flex flex-col items-center justify-center gap-2 border-b px-6 py-[34px] bg-gray-50">
         <img src={Logo} alt="Logo" className="w-[200px] object-contain" />
         <small className="capitalize text-center ">

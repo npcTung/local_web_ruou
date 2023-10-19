@@ -10,7 +10,12 @@ import {
   MdOutlineKeyboardArrowDown,
 } from "react-icons/md";
 import { HiArrowLongRight, HiHeart } from "react-icons/hi2";
-import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaRegFilePdf,
+} from "react-icons/fa6";
 import { RiLinkedinFill, RiBillLine } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
 import {
@@ -22,6 +27,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { TbBrandProducthunt } from "react-icons/tb";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaArrowDownShortWide, FaArrowUpWideShort } from "react-icons/fa6";
+import { SiMicrosoftexcel } from "react-icons/si";
 
 const icons = {
   ImSearch,
@@ -51,6 +57,8 @@ const icons = {
   BiSolidMessageSquareEdit,
   FaArrowDownShortWide,
   FaArrowUpWideShort,
+  SiMicrosoftexcel,
+  FaRegFilePdf,
 };
 
 export default icons;

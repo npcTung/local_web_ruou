@@ -1,4 +1,7 @@
 import icons from "./icons";
+import * as XLSX from "xlsx/xlsx.mjs";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const { BsStar, BsStarFill } = icons;
 
@@ -39,10 +42,26 @@ export const getBase64 = (file) => {
   });
 };
 
-export function seconsToHms(d) {
-  d = Number(d) / 1000;
-  const h = Math.floor(d / 3600);
-  const m = Math.floor((d % 3600) / 60);
-  const s = Math.floor((d % 3600) % 60);
-  return { h, m, s };
-}
+export const exportExcel = (data, nameSheet, nameFile) => {
+  return new Promise((resolve, reject) => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, nameSheet);
+    XLSX.writeFile(wb, `${nameFile}.xlsx`);
+    resolve("oke");
+  });
+};
+
+export const exportPDF = (capture, fileName) => {
+  return new Promise((resolve, reject) => {
+    html2canvas(capture).then((canvas) => {
+      const imgData = canvas.toDataURL("img/png");
+      const doc = new jsPDF("p", "mm", "a4");
+      const Width = doc.internal.pageSize.getWidth();
+      const Heigth = doc.internal.pageSize.getHeight();
+      doc.addImage(imgData, "PNG", 0, 0, Width, Heigth);
+      doc.save(`${fileName}.pdf`);
+    });
+    resolve("Okee");
+  });
+};

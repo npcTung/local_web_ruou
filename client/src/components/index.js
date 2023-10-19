@@ -8,6 +8,7 @@ export { default as Button } from "./buttons/Button";
 // inputs
 export { default as InputForm } from "./inputs/InputForm";
 export { default as InputSelect } from "./inputs/InputSelect";
+export { default as Select } from "./inputs/Select";
 // common
 export { default as Modal } from "./common/Modal";
 export { default as Loading } from "./common/Loading";

@@ -52,3 +52,10 @@ export const apiDeleteUser = (uid) =>
     url: "/user/" + uid,
     method: "delete",
   });
+
+export const apiUpdateUserByAdmin = (uid, data) =>
+  axiosConfig({
+    url: "/user/" + uid,
+    method: "put",
+    data,
+  });

@@ -236,7 +236,9 @@ const getUsers = asyncHandler(async (req, res) => {
     ];
   }
 
-  let queryCommand = User.find(formatedQueries);
+  let queryCommand = User.find(formatedQueries).select(
+    "-refreshToken -password"
+  );
   if (req.query.sort) {
     const sortBy = req.query.sort.split(",").join(" ");
     queryCommand = queryCommand.sort(sortBy);
