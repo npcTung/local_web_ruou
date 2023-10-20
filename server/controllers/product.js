@@ -251,7 +251,7 @@ const addVarriant = asyncHandler(async (req, res) => {
     pid,
     {
       $push: {
-        varriants: {
+        varriantis: {
           color,
           price,
           thumb,

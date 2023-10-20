@@ -8,6 +8,7 @@ import { renderStarFromNumber } from "ultils/helpers";
 import path from "ultils/path";
 import * as apis from "apis";
 import { toast } from "react-toastify";
+import DOMPurify from "dompurify";
 
 const ProductInfomation = ({
   data,
@@ -69,7 +70,17 @@ const ProductInfomation = ({
       {tapList === 0 && (
         <div className="w-full flex flex-col gap-5 border-b-2 pb-10">
           <h3 className="text-2xl font-semibold">{data?.title}</h3>
-          <span>{data?.description[0]}</span>
+          {data?.description.length > 1 && (
+            <span className="line-clamp-6">{data?.description}</span>
+          )}
+          {data?.description.length === 1 && (
+            <div
+              className="text-sm flex flex-col gap-2"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(data?.description[0]),
+              }}
+            />
+          )}
         </div>
       )}
       {tapList === 1 && (

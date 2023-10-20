@@ -14,6 +14,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import Product_image from "assets/logo-image.png";
 import Wrapper from "assets/wrapper.svg";
 import icons from "ultils/icons";
+import DOMPurify from "dompurify";
 
 const { HiHeart } = icons;
 
@@ -22,11 +23,12 @@ const tab_list = ["Mô tả", "Chính sách vận chuyển", "Phản hồi khác
 const DetailProduct = () => {
   const { pid } = useParams();
   const [productData, setProductData] = useState(null);
-  const [showImage, setShowImage] = useState(productData?.thumb);
+  const [showImage, setShowImage] = useState(null);
   const [tapList, setTapList] = useState(0);
   const [update, setUpdate] = useState(false);
   const [products, setProducts] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [varriantis, setVarriantis] = useState(null);
   // CALL API PRODUCT
   const fetchProduct = async (pid) => {
     const ressponse = await apis.apiGetProduct(pid);
@@ -65,7 +67,9 @@ const DetailProduct = () => {
     },
     [quantity]
   );
-
+  const images = varriantis
+    ? varriantis?.thumb.split(",").concat(varriantis?.images)
+    : productData?.thumb.split(",").concat(productData?.images);
   useEffect(() => {
     if (pid) fetchProduct(pid);
     fetchALLProduct();
@@ -75,9 +79,14 @@ const DetailProduct = () => {
     <div className="w-full h-full pb-10">
       <div className="w-main mx-auto py-20 grid grid-cols-2 items-center gap-10">
         <div className="col-span-1 flex flex-col gap-5 p-2">
-          <div className="w-full h-full">
+          <div className="w-[525px] h-[525px]">
             <img
-              src={showImage || productData?.thumb || Product_image}
+              src={
+                showImage ||
+                varriantis?.thumb ||
+                productData?.thumb ||
+                Product_image
+              }
               alt={productData?.title.toLowerCase()}
               className="w-full h-full object-contain"
             />
@@ -95,7 +104,7 @@ const DetailProduct = () => {
               breakpoints: { 640: { fixedHeight: 100, fixedWidth: 38 } },
             }}
           >
-            {productData?.images?.map((el, idx) => (
+            {images?.map((el, idx) => (
               <SplideSlide
                 key={idx}
                 className="w-full h-full"
@@ -121,8 +130,10 @@ const DetailProduct = () => {
               {productData?.title}
             </h3>
             <span className="flex flex-col justify-center items-end gap-1 text-red-500 opacity-70">
-              <span>{`Kho: ${productData?.quantity}`}</span>
-              <span>{`Đã bán: ${productData?.sold}`}</span>
+              <span>{`Kho: ${
+                varriantis?.quantity || productData?.quantity
+              }`}</span>
+              <span>{`Đã bán: ${varriantis?.sold || productData?.sold}`}</span>
             </span>
           </div>
           <div className="flex gap-2">
@@ -135,7 +146,7 @@ const DetailProduct = () => {
             >{`(${productData?.ratings.length} đánh giá)`}</a>
           </div>
           <span className="text-xl font-medium">{`${formatMoney(
-            productData?.price
+            varriantis?.price || productData?.price
           )} VNĐ`}</span>
           <div className="w-full flex items-center gap-10">
             <SelectQuantity
@@ -154,13 +165,46 @@ const DetailProduct = () => {
               <HiHeart size={20} />
             </span>
           </div>
-          <span className="line-clamp-6">{productData?.description}</span>
-          <span>{`Mã hàng: #${pid}`}</span>
+          {productData?.description.length > 1 && (
+            <span className="line-clamp-6">{productData?.description}</span>
+          )}
+          {productData?.description.length === 1 && (
+            <div
+              className="text-sm flex flex-col gap-2"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(productData?.description[0]),
+              }}
+            />
+          )}
+          <span className="flex items-center gap-2">
+            <span>Mã hàng:</span>
+            <span className="opacity-70 font-medium">{`#${pid}`}</span>
+          </span>
           <div className="flex gap-2 capitalize">
             <span>Color:</span>
             {productData?.color && (
-              <span>{productData?.color.toLowerCase()}</span>
+              <span
+                className="p-2 border border-black cursor-pointer"
+                onClick={() => {
+                  setVarriantis(null);
+                  setShowImage(null);
+                }}
+              >
+                {productData?.color.toLowerCase()}
+              </span>
             )}
+            {productData?.varriantis.length > 0 &&
+              productData?.varriantis?.map((el) => (
+                <span
+                  className="p-2 border border-black cursor-pointer"
+                  onClick={() => {
+                    setVarriantis(el);
+                    setShowImage(null);
+                  }}
+                >
+                  {el.color}
+                </span>
+              ))}
           </div>
           <div className="flex items-center gap-1 capitalize border-b pb-6">
             <span>Thể loại:</span>

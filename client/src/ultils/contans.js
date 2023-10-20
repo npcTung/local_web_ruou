@@ -14,6 +14,8 @@ const {
   TbBrandProducthunt,
   MdOutlineCreate,
   RiBillLine,
+  FaBlog,
+  ImBlog,
 } = icons;
 // NAVIGATION
 export const navigation = [
@@ -259,6 +261,7 @@ export const adminSidebar = [
   {
     id: 3,
     type: "PAREMT",
+    value: "product",
     text: "Quản lý sản phẩm",
     icon: <TbBrandProducthunt />,
     submenu: [
@@ -280,6 +283,25 @@ export const adminSidebar = [
     text: "Quản lý đơn hàng",
     path: `/${path.ADMIN}/${path.MANAGER_ORDER}`,
     icon: <RiBillLine />,
+  },
+  {
+    id: 5,
+    type: "PAREMT",
+    text: "Quản lý blog",
+    value: "blog",
+    icon: <FaBlog />,
+    submenu: [
+      {
+        text: "Tạo blog",
+        path: `/${path.ADMIN}/${path.CREATE_BLOG}`,
+        subIcon: <ImBlog />,
+      },
+      {
+        text: "Quản lý blog",
+        path: `/${path.ADMIN}/${path.MANAGER_BLOG}`,
+        subIcon: <FaBlog />,
+      },
+    ],
   },
 ];
 // ROLES

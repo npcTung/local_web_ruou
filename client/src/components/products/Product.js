@@ -19,7 +19,7 @@ const Product = ({ data }) => {
       <div className="w-full h-full overflow-hidden relative">
         {isShowOption && isShowOption === data?._id && (
           <>
-            <div className="absolute top-6 right-3 left-3 flex items-center justify-between bg-white shadow-sm animate-slide-in-top">
+            <div className="absolute top-6 right-3 left-3 flex items-center justify-between bg-white shadow-sm animate-slide-in-top rounded-md">
               <span
                 className="p-3 w-full flex justify-center text-xl hover:text-white hover:bg-black text-gray-500 transition-all cursor-pointer rounded-l-md"
                 title="Thêm vào yêu thích"
@@ -33,7 +33,7 @@ const Product = ({ data }) => {
                 <ImSearch />
               </span>
             </div>
-            <div className="absolute bottom-5 right-3 left-3 bg-white shadow-sm animate-slide-in-bottom">
+            <div className="absolute bottom-5 right-3 left-3 bg-white shadow-sm animate-slide-in-bottom rounded-lg">
               <Button
                 wf
                 name={"giỏ hàng"}

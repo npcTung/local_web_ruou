@@ -1,4 +1,4 @@
-import { ImSearch } from "react-icons/im";
+import { ImSearch, ImBlog } from "react-icons/im";
 import { BsStar, BsStarFill, BsThreeDots } from "react-icons/bs";
 import {
   MdKeyboardArrowRight,
@@ -15,6 +15,7 @@ import {
   FaTwitter,
   FaInstagram,
   FaRegFilePdf,
+  FaUpload,
 } from "react-icons/fa6";
 import { RiLinkedinFill, RiBillLine } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
@@ -22,11 +23,16 @@ import {
   BiSolidCartAdd,
   BiTimeFive,
   BiSolidMessageSquareEdit,
+  BiCustomize,
 } from "react-icons/bi";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { TbBrandProducthunt } from "react-icons/tb";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { FaArrowDownShortWide, FaArrowUpWideShort } from "react-icons/fa6";
+import {
+  FaArrowDownShortWide,
+  FaArrowUpWideShort,
+  FaBlog,
+} from "react-icons/fa6";
 import { SiMicrosoftexcel } from "react-icons/si";
 
 const icons = {
@@ -59,6 +65,10 @@ const icons = {
   FaArrowUpWideShort,
   SiMicrosoftexcel,
   FaRegFilePdf,
+  FaUpload,
+  FaBlog,
+  ImBlog,
+  BiCustomize,
 };
 
 export default icons;

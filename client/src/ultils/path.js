@@ -19,6 +19,8 @@ const path = {
   MANAGER_PRODUCT: "manager-product",
   MANAGER_ORDER: "manager-order",
   CREATE_PRODUCT: "create-product",
+  MANAGER_BLOG: "manager-blog",
+  CREATE_BLOG: "create-blog",
   // MEMBER
   MEMBER: "member",
 };

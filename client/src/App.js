@@ -23,8 +23,10 @@ import { ToastContainer } from "react-toastify";
 import icons from "ultils/icons";
 import {
   Admin,
+  CreateBlog,
   CreateProduct,
   DashBoard,
+  ManagerBlog,
   ManagerOrder,
   ManagerProduct,
   ManagerUser,
@@ -105,6 +107,8 @@ function App({ dispatch }) {
           <Route path={`${path.MANAGER_USER}`} element={<ManagerUser />} />
           <Route path={`${path.MANAGER_ORDER}`} element={<ManagerOrder />} />
           <Route path={`${path.CREATE_PRODUCT}`} element={<CreateProduct />} />
+          <Route path={`${path.MANAGER_BLOG}`} element={<ManagerBlog />} />
+          <Route path={`${path.CREATE_BLOG}`} element={<CreateBlog />} />
         </Route>
       </Routes>
       <ToastContainer

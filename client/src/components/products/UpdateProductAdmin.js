@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import withBase from "hocs/withBase";
+import icons from "ultils/icons";
+import { showModal } from "store/app/appSlice";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import {
   Button,
   InputForm,
@@ -7,28 +12,26 @@ import {
   MarkDownEditer,
   Select,
 } from "components";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { createSlug, getBase64, validate } from "ultils/helpers";
 import { toast } from "react-toastify";
-import withBase from "hocs/withBase";
-import { showModal } from "store/app/appSlice";
 import * as apis from "apis";
 
-const CreateProduct = ({ dispatch }) => {
+const { MdOutlineClear } = icons;
+
+const UpdateProductAdmin = ({ productData, rerender, dispatch }) => {
   const { categories } = useSelector((state) => state.app);
-  const [payload, setPayload] = useState({ description: "" });
-  const [invalidFields, setInvalidFields] = useState([]);
   const [preview, setPreview] = useState({ thumb: null, images: [] });
+  const [invalidFields, setInvalidFields] = useState([]);
+  const [payload, setPayload] = useState({ description: "" });
   const {
     handleSubmit,
     register,
     formState: { errors, isDirty },
-    watch,
     reset,
+    watch,
   } = useForm();
 
-  const handleCreateProduct = async (data) => {
+  const handleUpdateProduct = async (data) => {
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
       if (data.category)
@@ -40,33 +43,29 @@ const CreateProduct = ({ dispatch }) => {
           ?.find((el) => createSlug(el.title) === watch("category"))
           ?.brand?.find((els) => createSlug(els) === data.brand);
       const finalPayload = { ...data, ...payload };
+      finalPayload.thumb =
+        data?.thumb.length === 0 ? preview.thumb : data.thumb[0];
       const formData = new FormData();
       for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
-      if (finalPayload.thumb) formData.append("thumb", finalPayload.thumb[0]);
-      if (finalPayload.images)
-        for (let image of finalPayload.images) formData.append("images", image);
+      finalPayload.images =
+        data.images?.length === 0 ? preview.images : data.images;
+      for (let image of finalPayload.images) formData.append("images", image);
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-      const response = await apis.apiCreateProduct(formData);
+      const response = await apis.apiUpdateProduct(productData._id, formData);
       dispatch(showModal({ isShowModal: false, modalChildren: null }));
-      if (response.success) toast.success("Tạo sản phẩm thành công");
+      if (response.success) toast.success("Sửa sản phẩm thành công");
       else toast.error(response.mes);
       resteData();
+      rerender();
     }
   };
-
-  const resteData = () => {
-    reset();
-    setPayload({ description: "" });
-    setPreview({ thumb: null, images: [] });
-  };
-
+  // MÔ TẢ
   const changeValue = useCallback(
     (e) => {
       setPayload(e);
     },
     [payload]
-  );
-  // ẢNH ĐẠI DIỆN CỦA SẢN PHẨM
+  ); // ẢNH ĐẠI DIỆN CỦA SẢN PHẨM
   const handlePreviewThumb = async (file) => {
     if (
       file.type !== "image/png" &&
@@ -93,7 +92,7 @@ const CreateProduct = ({ dispatch }) => {
         file.type !== "image/jpeg"
       ) {
         toast.warning(
-          "Định dạng ảnh sai\nChỉ nhận định dạng file có đuôi .png hoặc .jpg",
+          "Định dạng ảnh sai chỉ nhận định dạng file có đuôi .png hoặc .jpg",
           { theme: "colored" }
         );
         return;
@@ -105,27 +104,65 @@ const CreateProduct = ({ dispatch }) => {
     if (imagesPreview.length > 0)
       setPreview((prev) => ({ ...prev, images: imagesPreview }));
   };
-
+  // RESET DATA
+  const resteData = () => {
+    reset();
+    setPayload({ description: "" });
+    setPreview({ thumb: null, images: [] });
+  };
+  // RENDER THUMB
   useEffect(() => {
-    if (watch("thumb").length > 0) handlePreviewThumb(watch("thumb")[0]);
+    if (watch("thumb") instanceof FileList && watch("thumb").length > 0)
+      handlePreviewThumb(watch("thumb")[0]);
   }, [watch("thumb")]);
-
+  // RENDER IMAGES
   useEffect(() => {
-    if (watch("images").length > 0) handlePreviewImages(watch("images"));
+    if (watch("images") instanceof FileList && watch("images").length > 0)
+      handlePreviewImages(watch("images"));
   }, [watch("images")]);
+  // RENDER PRODUCT DATA
+  useEffect(() => {
+    reset({
+      price: productData?.price || "",
+      color: productData?.color?.toLowerCase() || "",
+      title: productData?.title?.toLowerCase() || "",
+      category: createSlug(productData?.category) || "",
+      brand: createSlug(productData?.brand) || "",
+      quantity: productData?.quantity || "",
+    });
+    setPayload({
+      description:
+        typeof productData?.description === "object"
+          ? productData?.description.join(", ")
+          : productData?.description,
+    });
+    setPreview({
+      images: productData?.images || [],
+      thumb: productData?.thumb || "",
+    });
+  }, [productData]);
 
   return (
-    <div className="w-full">
-      <div className="h-[115px]"></div>
-      <div className="fixed z-10 bg-gray-50 top-0 w-full">
-        <h1 className="flex justify-between items-center text-3xl font-semibold border-b px-[30px] py-[39px]">
-          <span className="uppercase">tạo sản phẩm mới</span>
-        </h1>
-      </div>
-      <div className="w-full">
+    <div
+      className="p-5 bg-white rounded-md animate-scale-in-center w-[60%] h-4/5"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h1 className="flex justify-between items-center text-lg font-semibold border-b py-5]">
+        <span className="capitalize">{`sửa thông tin sản phẩm "${productData?.title.toLowerCase()}"`}</span>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            reset();
+            dispatch(showModal({ isShowModal: false, modalChildren: null }));
+          }}
+        >
+          <MdOutlineClear />
+        </span>
+      </h1>
+      <div className="w-full h-[96%] overflow-y-scroll px-5 border-b">
         <form
-          onSubmit={handleSubmit(handleCreateProduct)}
-          className="flex flex-col gap-5 w-3/5 mx-auto py-10"
+          onSubmit={handleSubmit(handleUpdateProduct)}
+          className="flex flex-col gap-5 mx-auto py-10"
         >
           <InputForm
             label={"tên sản phẩm"}
@@ -206,27 +243,28 @@ const CreateProduct = ({ dispatch }) => {
             changeValue={changeValue}
             invalidFields={invalidFields}
             setInvalidFields={setInvalidFields}
+            value={payload.description}
           />
           <InputImage
             thumb
             register={register}
             id={"thumb"}
             label={"Tải lên hình ảnh đại diện của sản phẩm"}
-            validate={{ required: "Điền thông tin bắt buộc." }}
             preview={preview}
             errors={errors}
+            validate={{ required: "Điền thông tin bắt buộc." }}
           />
           <InputImage
             images
             register={register}
             id={"images"}
             label={"Tải lên danh sách hình ảnh sản phẩm"}
-            validate={{ required: "Điền thông tin bắt buộc." }}
             preview={preview}
             errors={errors}
+            validate={{ required: "Điền thông tin bắt buộc." }}
           />
           <Button
-            name={"tạo sản phẩm"}
+            name={"sửa sản phẩm"}
             styles={`${isDirty ? "btn-info" : "btn-disabled"} text-white`}
             type="submit"
             wf
@@ -237,4 +275,4 @@ const CreateProduct = ({ dispatch }) => {
   );
 };
 
-export default withBase(CreateProduct);
+export default withBase(memo(UpdateProductAdmin));

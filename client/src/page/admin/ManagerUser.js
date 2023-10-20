@@ -11,7 +11,7 @@ import withBase from "hocs/withBase";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
-import { exportExcel, exportPDF } from "ultils/helpers";
+import { exportExcel } from "ultils/helpers";
 
 const {
   BiSolidMessageSquareEdit,
@@ -19,7 +19,7 @@ const {
   FaArrowDownShortWide,
   FaArrowUpWideShort,
   SiMicrosoftexcel,
-  FaRegFilePdf,
+  MdOutlineClear,
 } = icons;
 
 const ManagerUser = ({ navigate, location, dispatch }) => {
@@ -28,6 +28,7 @@ const ManagerUser = ({ navigate, location, dispatch }) => {
   const [sort, setSort] = useState("createdAt");
   const [update, setUpdate] = useState(false);
   const [queries, setQueries] = useState({ q: "" });
+  const [isShowClear, setIsShowClear] = useState(false);
   const queriesDebounce = useDebounce(queries.q, 800);
 
   const fetchAllProducts = async (param) => {
@@ -71,11 +72,12 @@ const ManagerUser = ({ navigate, location, dispatch }) => {
   const handleOnClickExport = async (value) => {
     if (value === "excel")
       await exportExcel(users?.usersData, "Danh sách người dùng", "ListUsers");
-    else if (value === "pdf") {
-      const capture = document.getElementById("table-user");
-      await exportPDF(capture, "ListUsers");
-    }
   };
+
+  useEffect(() => {
+    if (queries.q.length > 0) setIsShowClear(true);
+    else setIsShowClear(false);
+  }, [queries]);
 
   useEffect(() => {
     if (queriesDebounce)
@@ -90,6 +92,7 @@ const ManagerUser = ({ navigate, location, dispatch }) => {
     const queries = Object.fromEntries([...params]);
     if (sort) queries.sort = sort;
     fetchAllProducts(queries);
+    window.scrollTo(0, 0);
   }, [params, sort, update]);
 
   return (
@@ -120,21 +123,23 @@ const ManagerUser = ({ navigate, location, dispatch }) => {
           >
             <SiMicrosoftexcel />
           </span>
-          <span
-            className="text-xl p-2 text-white bg-red-500 rounded-md cursor-pointer"
-            title="Xuất PDF"
-            onClick={() => handleOnClickExport("pdf")}
-          >
-            <FaRegFilePdf />
-          </span>
         </div>
-        <div className="w-2/5">
+        <div className="w-2/5 relative">
           <input
             type="text"
             className="input input-bordered w-full"
             onChange={(e) => setQueries({ q: e.target.value })}
             value={queries.q}
+            placeholder="Tìm kiếm theo tên hoặc email người dùng..."
           />
+          {isShowClear && (
+            <span
+              className="absolute top-0 bottom-0 right-1 flex items-center justify-center cursor-pointer text-gray-500"
+              onClick={() => setQueries({ q: "" })}
+            >
+              <MdOutlineClear size={20} />
+            </span>
+          )}
         </div>
       </div>
       <div className="w-full py-4 px-10 flex flex-col gap-10">

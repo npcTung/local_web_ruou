@@ -9,6 +9,8 @@ export { default as Button } from "./buttons/Button";
 export { default as InputForm } from "./inputs/InputForm";
 export { default as InputSelect } from "./inputs/InputSelect";
 export { default as Select } from "./inputs/Select";
+export { default as MarkDownEditer } from "./inputs/MarkDownEditer";
+export { default as InputImage } from "./inputs/InputImage";
 // common
 export { default as Modal } from "./common/Modal";
 export { default as Loading } from "./common/Loading";
@@ -33,6 +35,8 @@ export { default as ProductSiderBar } from "./products/ProductSiderBar";
 export { default as TopProduct } from "./products/TopProduct";
 export { default as Product } from "./products/Product";
 export { default as ProductInfomation } from "./products/ProductInfomation";
+export { default as UpdateProductAdmin } from "./products/UpdateProductAdmin";
+export { default as CustomizeVarriant } from "./products/CustomizeVarriant";
 // footers
 export { default as TopFooter } from "./footers/TopFooter";
 export { default as Footer } from "./footers/Footer";

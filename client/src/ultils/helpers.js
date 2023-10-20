@@ -65,3 +65,18 @@ export const exportPDF = (capture, fileName) => {
     resolve("Okee");
   });
 };
+
+export const validate = (payload, setInvalidFields) => {
+  let invalids = 0;
+  const formatPayload = Object.entries(payload);
+  for (let i of formatPayload) {
+    if (i[1].trim() === "") {
+      invalids++;
+      setInvalidFields((prev) => [
+        ...prev,
+        { name: i[0], mes: "Trường này không được để trống~" },
+      ]);
+    }
+  }
+  return invalids;
+};
