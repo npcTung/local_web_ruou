@@ -59,3 +59,22 @@ export const apiUpdateUserByAdmin = (uid, data) =>
     method: "put",
     data,
   });
+
+export const apiUpdateWishList = (pid) =>
+  axiosConfig({
+    url: "/user/wishlist/" + pid,
+    method: "put",
+  });
+
+export const apiRemoveWishlist = (pid) =>
+  axiosConfig({
+    url: "/user/remove-wishlist/" + pid,
+    method: "delete",
+  });
+
+export const apiUpdateCurrentUser = (data) =>
+  axiosConfig({
+    url: "/user/current",
+    method: "put",
+    data,
+  });

@@ -16,15 +16,15 @@ router.put(
   "/current",
   [verifyAccessToken],
   uploader.single("avatar"),
-  Users.getUsers
+  Users.updateUser
 );
 router.put("/address", [verifyAccessToken], Users.updateUserAddress);
-router.put("/cart", [verifyAccessToken], Users.updateCart);
+router.put("/wishlist/:pid", [verifyAccessToken], Users.updateWishList);
 router.delete("/:uid", [verifyAccessToken, isAdmin], Users.deleteUser);
 router.delete(
-  "/remove-cart/:pid/:color",
+  "/remove-wishlist/:pid",
   [verifyAccessToken],
-  Users.removeProductInCart
+  Users.removeWishListInUser
 );
 router.put("/final-register/:token", Users.finalregister);
 router.put("/:uid", [verifyAccessToken, isAdmin], Users.updateUserByAdmin);

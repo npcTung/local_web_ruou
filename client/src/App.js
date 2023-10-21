@@ -8,10 +8,13 @@ import {
   Introduce,
   Login,
   News,
+  Personal,
   ProductCategory,
   Products,
   Public,
   ResetPassword,
+  SearchProduct,
+  WishList,
 } from "page/public";
 import path from "ultils/path";
 import withBase from "hocs/withBase";
@@ -92,6 +95,9 @@ function App({ dispatch }) {
           <Route path={path.INTRODUCE} element={<Introduce />} />
           <Route path={path.CONTACT} element={<Contact />} />
           <Route path={path.BLOG} element={<Blog />} />
+          <Route path={path.SEARCH_PRODUCT} element={<SearchProduct />} />
+          <Route path={path.PERSIONAL} element={<Personal />} />
+          <Route path={path.WISH_LIST} element={<WishList />} />
         </Route>
         {/* LOGIN/REGISTER */}
         <Route path={path.LOGIN} element={<Login />} />

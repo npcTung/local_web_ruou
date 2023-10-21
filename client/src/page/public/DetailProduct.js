@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Breadcrumbs,
-  Comment,
-  ProductInfomation,
-  Product,
-  SelectQuantity,
-  Button,
-} from "components";
+import { Breadcrumbs, Comment, ProductInfomation, Product } from "components";
 import * as apis from "apis";
 import { useParams } from "react-router-dom";
 import { formatMoney, renderStarFromNumber } from "ultils/helpers";
@@ -15,20 +8,33 @@ import Product_image from "assets/logo-image.png";
 import Wrapper from "assets/wrapper.svg";
 import icons from "ultils/icons";
 import DOMPurify from "dompurify";
+import { toast } from "react-toastify";
+import withBase from "hocs/withBase";
+import { getCurrent } from "store/user/asyncActions";
+import { useSelector } from "react-redux";
 
 const { HiHeart } = icons;
 
 const tab_list = ["Mô tả", "Chính sách vận chuyển", "Phản hồi khách hàng"];
+const MXH = ["facebook", "twitter", "pinterest"];
 
-const DetailProduct = () => {
+const DetailProduct = ({ dispatch }) => {
   const { pid } = useParams();
+  const { currentData } = useSelector((state) => state.user);
   const [productData, setProductData] = useState(null);
   const [showImage, setShowImage] = useState(null);
   const [tapList, setTapList] = useState(0);
   const [update, setUpdate] = useState(false);
   const [products, setProducts] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const [varriantis, setVarriantis] = useState(null);
+  const [wishlist, setWishlist] = useState(
+    currentData?.wishlist
+      ?.filter((el) => el._id === pid)
+      ?.map((el) => el._id)
+      .toString() === pid
+      ? true
+      : false
+  );
   // CALL API PRODUCT
   const fetchProduct = async (pid) => {
     const ressponse = await apis.apiGetProduct(pid);
@@ -46,34 +52,42 @@ const DetailProduct = () => {
   const rerender = useCallback(() => {
     setUpdate(!update);
   }, [update]);
-  // QUANTITY
-  const handaleQuantity = useCallback(
-    (number) => {
-      if (Number(number) >= 1 && Number(number) <= +productData?.quantity)
-        setQuantity(number);
-    },
-    [quantity]
-  );
-  // CHANGE QUANTITY
-  const handaleChargeQuantity = useCallback(
-    (flag) => {
-      if (+productData?.quantity === 0) return;
-      else {
-        if (flag === "minus" && quantity === 1) return;
-        else if (flag === "plus" && quantity >= productData?.quantity) return;
-        else if (flag === "minus") setQuantity((prev) => +prev - 1);
-        else if (flag === "plus") setQuantity((prev) => +prev + 1);
-      }
-    },
-    [quantity]
-  );
+
   const images = varriantis
     ? varriantis?.thumb.split(",").concat(varriantis?.images)
     : productData?.thumb.split(",").concat(productData?.images);
+
+  const handleWishlist = async () => {
+    if (wishlist) {
+      const response = await apis.apiRemoveWishlist(productData?._id);
+      if (response.success) {
+        toast.success(
+          `Xóa sản phẩm ${productData?.title.toLowerCase()} ra khỏi danh sách yêu thích thành công`
+        );
+        setWishlist(false);
+      } else {
+        toast.error(response.mes);
+        setWishlist(true);
+      }
+    } else {
+      const ressponse = await apis.apiUpdateWishList(productData?._id);
+      if (ressponse.success) {
+        toast.success(
+          `Thêm sản phẩm ${productData?.title.toLowerCase()} vào danh sách yêu thích thành công`
+        );
+        setWishlist(true);
+      } else {
+        toast.error(ressponse.mes);
+        setWishlist(false);
+      }
+    }
+  };
+
   useEffect(() => {
     if (pid) fetchProduct(pid);
+    dispatch(getCurrent());
     fetchALLProduct();
-  }, [pid, update]);
+  }, [pid, update, wishlist]);
 
   return (
     <div className="w-full h-full pb-10">
@@ -145,23 +159,19 @@ const DetailProduct = () => {
               className="opacity-70 hover:text-blue-500 hover:underline transition-all"
             >{`(${productData?.ratings.length} đánh giá)`}</a>
           </div>
-          <span className="text-xl font-medium">{`${formatMoney(
-            varriantis?.price || productData?.price
-          )} VNĐ`}</span>
-          <div className="w-full flex items-center gap-10">
-            <SelectQuantity
-              quantity={quantity}
-              handaleQuantity={handaleQuantity}
-              handaleChargeQuantity={handaleChargeQuantity}
-              quantityProduct={productData?.quantity}
-            />
-            <Button
-              name={"Thêm vào giỏ hàng"}
-              styles={
-                "border-2 border-black hover:bg-black hover:text-white bg-transparent"
-              }
-            />
-            <span className="px-5 py-3 rounded-md border-2 text-gray-500 hover:text-black hover:border-black transition-all cursor-pointer">
+          <div className="w-full flex items-center justify-between gap-10">
+            <span className="text-xl font-medium">{`${formatMoney(
+              varriantis?.price || productData?.price
+            )} VNĐ`}</span>
+            <span
+              className={`px-5 py-3 rounded-md border-2 ${
+                wishlist
+                  ? "text-white border-red-500 bg-red-500"
+                  : "text-gray-500 hover:text-red-500 hover:border-red-500 transition-all"
+              } cursor-pointer`}
+              title="Yêu thích sản phẩm này"
+              onClick={handleWishlist}
+            >
               <HiHeart size={20} />
             </span>
           </div>
@@ -178,13 +188,17 @@ const DetailProduct = () => {
           )}
           <span className="flex items-center gap-2">
             <span>Mã hàng:</span>
-            <span className="opacity-70 font-medium">{`#${pid}`}</span>
+            <span className="opacity-70 text-sm">{`#${pid}`}</span>
           </span>
           <div className="flex gap-2 capitalize">
             <span>Color:</span>
             {productData?.color && (
               <span
-                className="p-2 border border-black cursor-pointer"
+                className={`p-2 border ${
+                  !varriantis
+                    ? "bg-red-500 text-white border-red-500"
+                    : "border-gray-400 text-gray-400 cursor-pointer hover:bg-red-500 hover:text-white hover:border-red-500"
+                } font-semibold rounded-md transition-all cursor-pointer`}
                 onClick={() => {
                   setVarriantis(null);
                   setShowImage(null);
@@ -196,7 +210,12 @@ const DetailProduct = () => {
             {productData?.varriantis.length > 0 &&
               productData?.varriantis?.map((el) => (
                 <span
-                  className="p-2 border border-black cursor-pointer"
+                  key={el._id}
+                  className={`p-2 border ${
+                    varriantis?._id === el._id
+                      ? "bg-red-500 text-white border-red-500"
+                      : "border-gray-400 text-gray-400 cursor-pointer hover:bg-red-500 hover:text-white hover:border-red-500"
+                  } font-semibold rounded-md transition-all cursor-pointer`}
                   onClick={() => {
                     setVarriantis(el);
                     setShowImage(null);
@@ -213,15 +232,14 @@ const DetailProduct = () => {
             <span>{productData?.brand.toLowerCase()}</span>
           </div>
           <div className="flex items-center gap-5 text-xl uppercase py-6">
-            <span className="p-5 w-[200px] text-center text-gray-400 border-2 border-gray-400 hover:text-black hover:border-black transition-all cursor-pointer">
-              face book
-            </span>
-            <span className="p-5 w-[200px] text-center text-gray-400 border-2 border-gray-400 hover:text-black hover:border-black transition-all cursor-pointer">
-              twitter
-            </span>
-            <span className="p-5 w-[200px] text-center text-gray-400 border-2 border-gray-400 hover:text-black hover:border-black transition-all cursor-pointer">
-              pinterest
-            </span>
+            {MXH.map((el) => (
+              <span
+                key={el}
+                className="p-5 w-[200px] text-center text-gray-400 border-2 border-gray-400 hover:text-black hover:border-black transition-all cursor-pointer"
+              >
+                {el}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -307,4 +325,4 @@ const DetailProduct = () => {
   );
 };
 
-export default DetailProduct;
+export default withBase(DetailProduct);

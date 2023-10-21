@@ -1,4 +1,4 @@
-import { ImSearch, ImBlog } from "react-icons/im";
+import { ImSearch, ImBlog, ImUpload } from "react-icons/im";
 import { BsStar, BsStarFill, BsThreeDots } from "react-icons/bs";
 import {
   MdKeyboardArrowRight,
@@ -20,7 +20,6 @@ import {
 import { RiLinkedinFill, RiBillLine } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
 import {
-  BiSolidCartAdd,
   BiTimeFive,
   BiSolidMessageSquareEdit,
   BiCustomize,
@@ -50,7 +49,6 @@ const icons = {
   IoIosArrowUp,
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowDown,
-  BiSolidCartAdd,
   HiHeart,
   BsThreeDots,
   BiTimeFive,
@@ -69,6 +67,7 @@ const icons = {
   FaBlog,
   ImBlog,
   BiCustomize,
+  ImUpload,
 };
 
 export default icons;

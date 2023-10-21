@@ -1,12 +1,26 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { Button } from "components";
 import icons from "ultils/icons";
 import withBase from "hocs/withBase";
 import { showModal } from "store/app/appSlice";
+import path from "ultils/path";
+import { createSearchParams } from "react-router-dom";
 
 const { MdOutlineClear, ImSearch } = icons;
 
-const SeachHeader = ({ dispatch }) => {
+const SeachHeader = ({ dispatch, navigate }) => {
+  const [querySearch, setQuerySearch] = useState({ q: "" });
+
+  const handaleSearchProduct = () => {
+    if (querySearch) {
+      navigate({
+        pathname: `${path.SEARCH_PRODUCT}`,
+        search: createSearchParams(querySearch).toString(),
+      });
+      dispatch(showModal({ isShowModal: false, modalChildren: null }));
+    }
+  };
+
   return (
     <div
       className="w-[700px] bg-white p-10 rounded-md relative animate-scale-in-center"
@@ -27,12 +41,14 @@ const SeachHeader = ({ dispatch }) => {
             className="input input-bordered w-full"
             id="q"
             placeholder="Tìm kiếm sản phẩm..."
+            onChange={(e) => setQuerySearch({ q: e.target.value })}
+            onKeyDown={(e) => e.key === "Enter" && handaleSearchProduct()}
           />
         </div>
         <Button
           iconAfter={<ImSearch />}
-          type="submit"
           styles={"text-black bg-transparent border-transparent col-span-1"}
+          handleOnClick={handaleSearchProduct}
         />
       </form>
     </div>

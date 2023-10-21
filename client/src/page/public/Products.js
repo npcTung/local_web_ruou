@@ -9,12 +9,15 @@ import {
 import * as apis from "apis";
 import { useSearchParams } from "react-router-dom";
 import NoProduct from "assets/no-product.png";
+import withBase from "hocs/withBase";
+import { getCurrent } from "store/user/asyncActions";
 
-const Products = () => {
+const Products = ({ dispatch }) => {
   const [params] = useSearchParams();
   const [products, setProducts] = useState(null);
-  const [sort, setSort] = useState();
+  const [sort, setSort] = useState("-totalRatings");
   const [limit, setLimit] = useState(12);
+  const [update, setUpdate] = useState(false);
   // CHANGE VALUE
   const changeValue = useCallback(
     (value) => {
@@ -22,6 +25,10 @@ const Products = () => {
     },
     [sort]
   );
+  // RERENDER
+  const rerender = useCallback(() => {
+    setUpdate(!update);
+  }, [update]);
   // GET ALL API PRODUCTS
   const fetchAllProduct = async (queries) => {
     const response = await apis.apiGetAllProduct(queries);
@@ -48,8 +55,9 @@ const Products = () => {
     delete queries.min;
     delete queries.max;
     fetchAllProduct(queries);
+    dispatch(getCurrent());
     window.scrollTo(0, 0);
-  }, [limit, sort, params]);
+  }, [limit, sort, params, update]);
   return (
     <div className="w-full h-full">
       <div className="w-full h-full bg-[#f6f6f6]">
@@ -69,7 +77,7 @@ const Products = () => {
           {products?.counts > 0 ? (
             <div className="grid grid-cols-3 gap-10 py-10 px-5">
               {products.products?.map((el) => (
-                <Product key={el._id} data={el} />
+                <Product key={el._id} data={el} rerender={rerender} />
               ))}
             </div>
           ) : (
@@ -92,4 +100,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withBase(Products);

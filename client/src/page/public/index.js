@@ -9,3 +9,6 @@ export { default as Contact } from "./Contact";
 export { default as Blog } from "./Blog";
 export { default as ResetPassword } from "./ResetPassword";
 export { default as DetailProduct } from "./DetailProduct";
+export { default as SearchProduct } from "./SearchProduct";
+export { default as Personal } from "./Personal";
+export { default as WishList } from "./WishList";

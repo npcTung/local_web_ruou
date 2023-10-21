@@ -4,9 +4,14 @@ import icons from "ultils/icons";
 
 const { BsThreeDots } = icons;
 
-const usePagination = (totalProductCount, currentPage, siblingCount = 1) => {
+const usePagination = (
+  totalProductCount,
+  currentPage,
+  limit,
+  siblingCount = 1
+) => {
   const paginationArray = useMemo(() => {
-    const pageSize = +process.env.REACT_APP_LIMIT || 12;
+    const pageSize = +limit || +process.env.REACT_APP_LIMIT || 12;
     const paginationCount = Math.ceil(+totalProductCount / pageSize);
     const totalPaginationItem = siblingCount + 5;
     const isShowLeft = currentPage - siblingCount > 2;
@@ -34,7 +39,7 @@ const usePagination = (totalProductCount, currentPage, siblingCount = 1) => {
         paginationCount,
       ];
     }
-  }, [totalProductCount, currentPage, siblingCount]);
+  }, [totalProductCount, currentPage, siblingCount, limit]);
 
   return paginationArray;
 };

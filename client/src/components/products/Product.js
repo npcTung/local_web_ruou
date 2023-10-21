@@ -3,13 +3,53 @@ import { Link } from "react-router-dom";
 import product from "assets/logo-image.png";
 import { createSlug, formatMoney, renderStarFromNumber } from "ultils/helpers";
 import path from "ultils/path";
-import { Button } from "components";
 import icons from "ultils/icons";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import * as apis from "apis";
 
-const { BiSolidCartAdd, HiHeart, ImSearch } = icons;
+const { HiHeart, ImSearch } = icons;
 
-const Product = ({ data }) => {
+const Product = ({ data, rerender }) => {
+  const { currentData } = useSelector((state) => state.user);
   const [isShowOption, setIsShowOption] = useState(null);
+  const [wishlist, setWishlist] = useState(
+    currentData?.wishlist
+      ?.filter((el) => el._id === data._id)
+      ?.map((el) => el._id)
+      .toString() === data._id
+      ? true
+      : false
+  );
+
+  const handleWishlist = async () => {
+    if (wishlist) {
+      const response = await apis.apiRemoveWishlist(data?._id);
+      if (response.success) {
+        toast.success(
+          `Xóa sản phẩm ${data?.title.toLowerCase()} ra khỏi danh sách yêu thích thành công`
+        );
+        setWishlist(false);
+        rerender();
+      } else {
+        toast.error(response.mes);
+        setWishlist(true);
+      }
+    } else {
+      const ressponse = await apis.apiUpdateWishList(data?._id);
+      if (ressponse.success) {
+        toast.success(
+          `Thêm sản phẩm ${data?.title.toLowerCase()} vào danh sách yêu thích thành công`
+        );
+        setWishlist(true);
+        rerender();
+      } else {
+        toast.error(ressponse.mes);
+        setWishlist(false);
+      }
+    }
+  };
+
   return (
     <div
       className="col-span-1 p-2 flex flex-col items-center justify-center"
@@ -18,30 +58,25 @@ const Product = ({ data }) => {
     >
       <div className="w-full h-full overflow-hidden relative">
         {isShowOption && isShowOption === data?._id && (
-          <>
-            <div className="absolute top-6 right-3 left-3 flex items-center justify-between bg-white shadow-sm animate-slide-in-top rounded-md">
-              <span
-                className="p-3 w-full flex justify-center text-xl hover:text-white hover:bg-black text-gray-500 transition-all cursor-pointer rounded-l-md"
-                title="Thêm vào yêu thích"
-              >
-                <HiHeart />
-              </span>
-              <span
-                className="p-3 w-full flex justify-center text-xl hover:text-white hover:bg-black text-gray-500 transition-all cursor-pointer rounded-r-md"
-                title="Xem nhanh"
-              >
-                <ImSearch />
-              </span>
-            </div>
-            <div className="absolute bottom-5 right-3 left-3 bg-white shadow-sm animate-slide-in-bottom rounded-lg">
-              <Button
-                wf
-                name={"giỏ hàng"}
-                iconAfter={<BiSolidCartAdd size={20} />}
-                styles={`text-black bg-white border-white hover:border-black hover:bg-black hover:text-white transition-all`}
-              />
-            </div>
-          </>
+          <div className="absolute bottom-6 right-3 left-3 flex items-center justify-between bg-white shadow-sm animate-slide-in-bottom rounded-md">
+            <span
+              className={`p-3 w-full flex justify-center text-xl ${
+                wishlist
+                  ? "text-white bg-red-500"
+                  : "hover:text-white hover:bg-black text-gray-500 transition-all"
+              } cursor-pointer rounded-l-md`}
+              title="Thêm vào yêu thích"
+              onClick={handleWishlist}
+            >
+              <HiHeart />
+            </span>
+            <span
+              className="p-3 w-full flex justify-center text-xl hover:text-white hover:bg-black text-gray-500 transition-all cursor-pointer rounded-r-md"
+              title="Xem nhanh"
+            >
+              <ImSearch />
+            </span>
+          </div>
         )}
         <Link
           to={`/${path.PRODUCT}/${createSlug(data?.category)}/${data?._id}/${

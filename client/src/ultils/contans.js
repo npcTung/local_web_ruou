@@ -163,7 +163,7 @@ export const sortPrice = [
 export const sorts = [
   {
     id: 1,
-    value: "totalRatings",
+    value: "-totalRatings",
     text: "Đặc sắc",
   },
   {

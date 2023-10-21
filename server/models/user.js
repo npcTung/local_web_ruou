@@ -13,15 +13,6 @@ var userSchema = new mongoose.Schema(
     avatar: String,
     fileNameAvatar: String,
     role: { type: String, enum: [2002, 2023], default: 2023 }, // 2002 => Admin, 2023 => User
-    cart: [
-      {
-        proudct: { type: mongoose.Types.ObjectId, ref: "Product" },
-        quantity: Number,
-        color: String,
-        price: Number,
-        thumb: String,
-      },
-    ],
     address: String,
     wishlist: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
     isBlocked: { type: Boolean, default: false },

@@ -15,7 +15,6 @@ export { default as InputImage } from "./inputs/InputImage";
 export { default as Modal } from "./common/Modal";
 export { default as Loading } from "./common/Loading";
 export { default as Breadcrumbs } from "./common/Breadcrumbs";
-export { default as SelectQuantity } from "./common/SelectQuantity";
 // search
 export { default as SeachHeader } from "./search/SeachHeader";
 // users

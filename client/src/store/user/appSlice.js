@@ -27,15 +27,6 @@ export const appSlice = createSlice({
     clearMessages: (state) => {
       state.mes = "";
     },
-    updateCart: (state, action) => {
-      const { pid, color, quantity } = action.payload;
-      const updatingCart = JSON.parse(JSON.stringify(state.currentCart));
-      state.currentCart = updatingCart.map((el) => {
-        if (el.color === color && el.product?._id === pid) {
-          return { ...el, quantity };
-        } else return el;
-      });
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(actions.getCurrent.pending, (state) => {
@@ -60,6 +51,6 @@ export const appSlice = createSlice({
   },
 });
 
-export const { login, logout, clearMessages, updateCart } = appSlice.actions;
+export const { login, logout, clearMessages } = appSlice.actions;
 
 export default appSlice.reducer;

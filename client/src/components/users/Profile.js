@@ -53,8 +53,11 @@ const Profile = ({ dispatch, userData }) => {
         </div>
         <div className="flex items-center gap-2 bg-sky-500 text-white rounded-b-md p-3">
           <Link
-            to={"#"}
+            to={`/${path.PERSIONAL}`}
             className="whitespace-nowrap hover:underline transition-all"
+            onClick={() =>
+              dispatch(showModal({ isShowModal: false, modalChildren: null }))
+            }
           >
             Thông tin tài khoản
           </Link>
@@ -77,8 +80,11 @@ const Profile = ({ dispatch, userData }) => {
             </>
           )}
           <Link
-            to={"#"}
+            to={`/${path.WISH_LIST}`}
             className="whitespace-nowrap hover:underline transition-all"
+            onClick={() =>
+              dispatch(showModal({ isShowModal: false, modalChildren: null }))
+            }
           >
             Danh sách yêu thích
           </Link>
