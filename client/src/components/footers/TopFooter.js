@@ -5,8 +5,8 @@ const TopFooter = () => {
   const [isHover2, setIsHover2] = useState(false);
   return (
     <div className="w-full bg-[#f6f6f6]">
-      <div className="w-main mx-auto">
-        <div className="py-20 flex items-center justify-between gap-10">
+      <div className="sm:w-main mx-auto">
+        <div className="py-20 flex max-sm:flex-col items-center justify-between gap-10">
           <div
             className="w-full h-28 bg-white shadow-md rounded-sm flex flex-col items-center justify-center p-10 cursor-default overflow-hidden"
             onMouseEnter={(e) => {

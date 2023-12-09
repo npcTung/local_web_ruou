@@ -36,7 +36,7 @@ const NewProduct = () => {
         </Link>
       </div>
       <div className="w-full my-10">
-        <div className="grid grid-rows-2 grid-cols-4">
+        <div className="sm:grid sm:grid-rows-2 sm:grid-cols-4">
           {productData?.map((el) => (
             <div
               key={el?._id}

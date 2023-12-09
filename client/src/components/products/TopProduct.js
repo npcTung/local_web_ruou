@@ -7,7 +7,7 @@ const limits = [12, 24, 48];
 const TopProduct = ({ limit, setLimit, sort, changeValue }) => {
   return (
     <div className="w-full py-3 border-b flex justify-between gap-5">
-      <div className="flex gap-3 items-center">
+      <div className="flex max-sm:flex-col gap-3 items-center">
         <span className="cursor-default">Hiện bởi: </span>
         {limits.map((el) => (
           <span
@@ -23,7 +23,7 @@ const TopProduct = ({ limit, setLimit, sort, changeValue }) => {
           </span>
         ))}
       </div>
-      <div className="w-2/5 flex gap-3">
+      <div className="w-2/5 flex max-sm:flex-col gap-3">
         <label htmlFor="sort" className="label label-text whitespace-nowrap">
           Sắp xếp theo:
         </label>

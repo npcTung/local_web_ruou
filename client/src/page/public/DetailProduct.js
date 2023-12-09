@@ -85,7 +85,6 @@ const DetailProduct = ({ dispatch }) => {
 
   useEffect(() => {
     if (pid) fetchProduct(pid);
-    dispatch(getCurrent());
     fetchALLProduct();
   }, [pid, update, wishlist]);
 

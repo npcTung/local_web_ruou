@@ -16,7 +16,7 @@ const Introduce = () => {
     } else toast.warn("Bạn cần nhập email trước khi gửi.");
   };
   return (
-    <div className="w-main mx-auto">
+    <div className="sm:w-main mx-auto">
       <div className="w-full flex flex-col items-center justify-center gap-5">
         <div className="w-[100px] h-[50px]">
           <img
@@ -30,7 +30,7 @@ const Introduce = () => {
           xem cửa hàng của chúng tôi
         </Link>
       </div>
-      <div className="grid grid-rows-2 grid-cols-3 gap-6 mt-5">
+      <div className="sm:grid sm:grid-rows-2 sm:grid-cols-3 gap-6 mt-5">
         <div className="relative row-span-1 col-span-2">
           <img
             src="https://res.cloudinary.com/npctungadmin/image/upload/v1696570563/quan-ly-ruou/about_us_newsletter_about_background_qyhn3c.jpg"

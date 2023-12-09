@@ -18,13 +18,14 @@ const Pagination = ({ totalCount, limit }) => {
 
   return (
     <div className="w-full flex justify-between items-center">
+      <span className="sm:hidden"></span>
       {!+params.get("page") ? (
-        <span className="text-sm italic">{`Hiển thị sản phẩm từ 1 đến ${
+        <span className="text-sm italic max-sm:hidden">{`Hiển thị sản phẩm từ 1 đến ${
           Math.round(+limit, totalCount) || 12
         } trên ${totalCount} sản phẩm`}</span>
       ) : null}
       {+params.get("page") ? (
-        <span className="text-sm italic">{`Hiển thị sản phẩm từ ${range()} trên ${totalCount} sản phẩm`}</span>
+        <span className="text-sm italic max-sm:hidden">{`Hiển thị sản phẩm từ ${range()} trên ${totalCount} sản phẩm`}</span>
       ) : null}
       <div className="flex items-center gap-2">
         {pagination?.map((el, idx) => (

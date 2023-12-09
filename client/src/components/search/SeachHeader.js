@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useState } from "react";
 import { Button } from "components";
 import icons from "ultils/icons";
 import withBase from "hocs/withBase";

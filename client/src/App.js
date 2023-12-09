@@ -94,7 +94,6 @@ function App({ dispatch }) {
           <Route path={path.NEWS} element={<News />} />
           <Route path={path.INTRODUCE} element={<Introduce />} />
           <Route path={path.CONTACT} element={<Contact />} />
-          <Route path={path.BLOG} element={<Blog />} />
           <Route path={path.SEARCH_PRODUCT} element={<SearchProduct />} />
           <Route path={path.PERSIONAL} element={<Personal />} />
           <Route path={path.WISH_LIST} element={<WishList />} />

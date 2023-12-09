@@ -1,5 +1,5 @@
 import { ImSearch, ImBlog, ImUpload } from "react-icons/im";
-import { BsStar, BsStarFill, BsThreeDots } from "react-icons/bs";
+import { BsStar, BsStarFill, BsThreeDots, BsList } from "react-icons/bs";
 import {
   MdKeyboardArrowRight,
   MdKeyboardArrowDown,
@@ -68,6 +68,7 @@ const icons = {
   ImBlog,
   BiCustomize,
   ImUpload,
+  BsList,
 };
 
 export default icons;

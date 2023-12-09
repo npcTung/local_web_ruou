@@ -3,6 +3,7 @@ export { default as Header } from "./headers/Header";
 export { default as TopHeader } from "./headers/TopHeader";
 // navigation
 export { default as Navigation } from "./navigation/Navigation";
+export { default as NavigationSider } from "./navigation/NavigationSider";
 // buttons
 export { default as Button } from "./buttons/Button";
 // inputs
@@ -36,6 +37,7 @@ export { default as Product } from "./products/Product";
 export { default as ProductInfomation } from "./products/ProductInfomation";
 export { default as UpdateProductAdmin } from "./products/UpdateProductAdmin";
 export { default as CustomizeVarriant } from "./products/CustomizeVarriant";
+export { default as QuickView } from "./products/QuickView";
 // footers
 export { default as TopFooter } from "./footers/TopFooter";
 export { default as Footer } from "./footers/Footer";

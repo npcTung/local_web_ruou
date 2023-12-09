@@ -29,7 +29,7 @@ const TopHeader = ({ dispatch, navigate }) => {
 
   return (
     <div
-      className={`w-full flex items-center ${
+      className={`w-full flex items-center max-sm:hidden ${
         isLoggedIn ? "justify-between" : "justify-end"
       } uppercase font-semibold border px-5`}
     >

@@ -44,11 +44,6 @@ export const navigation = [
     title: "liên hệ",
     path: `/${path.CONTACT}`,
   },
-  {
-    id: 6,
-    title: "blog",
-    path: `/${path.BLOG}`,
-  },
 ];
 // HOME/PRODUCT NEW
 export const HomeProductNew = [

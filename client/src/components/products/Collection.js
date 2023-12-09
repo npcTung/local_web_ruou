@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { Link } from "react-router-dom";
 import path from "ultils/path";
@@ -9,9 +9,22 @@ import { HomeProductNew } from "ultils/contans";
 const Collection = () => {
   const { categories } = useSelector((state) => state.app);
   const data = categories?.concat(HomeProductNew);
+  const [isSplide, setIsSplide] = useState(false);
+
+  useEffect(() => {
+    const widthPage = document.documentElement.clientWidth;
+    if (widthPage < 640) setIsSplide(true);
+    else setIsSplide(false);
+  }, []);
+
   return (
     <Splide
-      options={{ rewind: true, perPage: 3, type: "loop", focus: "center" }}
+      options={{
+        rewind: true,
+        perPage: isSplide ? 1 : 3,
+        type: "loop",
+        focus: "center",
+      }}
       aria-label="React Splide Example"
       className="pt-10 pb-5"
     >

@@ -17,8 +17,8 @@ const Footer = () => {
     } else toast.warn("Bạn cần nhập email trước khi gửi.");
   };
   return (
-    <div className="grid grid-cols-6 gap-10">
-      <div className="col-span-2 flex justify-between p-20">
+    <div className="sm:grid sm:grid-cols-6 gap-10">
+      <div className="col-span-2 flex max-sm:flex-col max-sm:gap-5 sm:justify-between p-20">
         {footerInfo.map((el) => (
           <div key={el.id} className="flex flex-col gap-10">
             <h3 className="text-xl uppercase font-bold">{el.title}</h3>

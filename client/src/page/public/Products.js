@@ -9,10 +9,8 @@ import {
 import * as apis from "apis";
 import { useSearchParams } from "react-router-dom";
 import NoProduct from "assets/no-product.png";
-import withBase from "hocs/withBase";
-import { getCurrent } from "store/user/asyncActions";
 
-const Products = ({ dispatch }) => {
+const Products = () => {
   const [params] = useSearchParams();
   const [products, setProducts] = useState(null);
   const [sort, setSort] = useState("-totalRatings");
@@ -55,18 +53,17 @@ const Products = ({ dispatch }) => {
     delete queries.min;
     delete queries.max;
     fetchAllProduct(queries);
-    dispatch(getCurrent());
     window.scrollTo(0, 0);
   }, [limit, sort, params, update]);
   return (
     <div className="w-full h-full">
       <div className="w-full h-full bg-[#f6f6f6]">
-        <div className="w-main mx-auto py-20 flex justify-between items-center">
+        <div className="sm:w-main mx-auto py-20 flex max-sm:flex-col sm:justify-between items-center">
           <Breadcrumbs product={"Danh sách sản phẩm"} />
           <span className="text-xl uppercase font-semibold">Sản phẩm</span>
         </div>
       </div>
-      <div className="w-main mx-auto py-20 grid grid-cols-10">
+      <div className="sm:w-main mx-auto py-20 sm:grid sm:grid-cols-10">
         <ProductSiderBar />
         <div className="col-span-8">
           <TopProduct
@@ -75,7 +72,7 @@ const Products = ({ dispatch }) => {
             changeValue={changeValue}
           />
           {products?.counts > 0 ? (
-            <div className="grid grid-cols-3 gap-10 py-10 px-5">
+            <div className="sm:grid sm:grid-cols-3 gap-10 py-10 px-5">
               {products.products?.map((el) => (
                 <Product key={el._id} data={el} rerender={rerender} />
               ))}
@@ -91,7 +88,7 @@ const Products = ({ dispatch }) => {
           )}
         </div>
         {products?.counts > limit && (
-          <div className="w-main mx-auto flex justify-end mt-5">
+          <div className="sm:w-main mx-auto flex justify-end mt-5">
             <Pagination totalCount={products?.counts} limit={limit} />
           </div>
         )}
@@ -100,4 +97,4 @@ const Products = ({ dispatch }) => {
   );
 };
 
-export default withBase(Products);
+export default Products;

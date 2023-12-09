@@ -7,10 +7,13 @@ import icons from "ultils/icons";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as apis from "apis";
+import withBase from "hocs/withBase";
+import { QuickView } from "components";
+import { showModal } from "store/app/appSlice";
 
 const { HiHeart, ImSearch } = icons;
 
-const Product = ({ data, rerender }) => {
+const Product = ({ data, rerender, dispatch }) => {
   const { currentData } = useSelector((state) => state.user);
   const [isShowOption, setIsShowOption] = useState(null);
   const [wishlist, setWishlist] = useState(
@@ -73,6 +76,14 @@ const Product = ({ data, rerender }) => {
             <span
               className="p-3 w-full flex justify-center text-xl hover:text-white hover:bg-black text-gray-500 transition-all cursor-pointer rounded-r-md"
               title="Xem nhanh"
+              onClick={() =>
+                dispatch(
+                  showModal({
+                    isShowModal: true,
+                    modalChildren: <QuickView data={data} />,
+                  })
+                )
+              }
             >
               <ImSearch />
             </span>
@@ -109,4 +120,4 @@ const Product = ({ data, rerender }) => {
   );
 };
 
-export default memo(Product);
+export default withBase(memo(Product));

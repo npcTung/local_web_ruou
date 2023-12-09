@@ -17,7 +17,7 @@ const ProductStandOut = () => {
     fetchAllProducts();
   }, []);
   return (
-    <div className="w-main mx-auto">
+    <div className="sm:w-main mx-auto">
       <div className="w-full flex flex-col items-center justify-center gap-5">
         <div className="w-[100px] h-[50px]">
           <img
@@ -32,11 +32,11 @@ const ProductStandOut = () => {
         </Link>
       </div>
       <div className="w-full my-10">
-        <div className="grid grid-rows-3 grid-cols-3 gap-5">
+        <div className="sm:grid sm:grid-rows-3 sm:grid-cols-3 gap-5">
           {productData?.map((el) => (
             <div
               key={el?._id}
-              className="row-span-1 col-span-1 flex items-center gap-5"
+              className="sm:row-span-1 sm:col-span-1 flex max-sm:flex-col max-sm:justify-center max-sm:py-3 sm:items-center gap-5"
             >
               <Link
                 to={`/${path.PRODUCT}/${createSlug(el?.category)}/${el?._id}/${

@@ -10,7 +10,7 @@ import path from "ultils/path";
 
 const { MdOutlineClear } = icons;
 
-const Profile = ({ dispatch, userData }) => {
+const Profile = ({ dispatch, userData, navigate }) => {
   return (
     <div
       className="bg-white rounded-md relative animate-scale-in-center"
@@ -94,6 +94,7 @@ const Profile = ({ dispatch, userData }) => {
             onClick={() => {
               dispatch(logout());
               dispatch(showModal({ isShowModal: false, modalChildren: null }));
+              navigate(`/${path.HOME}`);
             }}
           >
             Đăng xuất

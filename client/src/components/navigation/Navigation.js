@@ -12,7 +12,7 @@ const Navigation = () => {
   const { categories } = useSelector((state) => state.app);
   const [isShowCategory, setIsShowCategory] = useState(false);
   return (
-    <div className="flex items-center justify-start gap-8 px-5 col-span-7 uppercase font-semibold text-lg relative">
+    <div className="flex items-center justify-start gap-8 px-5 col-span-7 uppercase font-semibold text-lg relative max-md:hidden">
       {navigation.map((el) => (
         <div
           key={el.id}
