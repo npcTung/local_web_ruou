@@ -8,17 +8,20 @@ import {
 } from "components";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { createSlug } from "ultils/helpers";
+import { createSlug, title_head } from "ultils/helpers";
 import * as apis from "apis";
 import NoProduct from "assets/no-product.png";
+import withBase from "hocs/withBase";
+import { getCurrent } from "store/user/asyncActions";
 
-const ProductCategory = () => {
+const ProductCategory = ({ dispatch }) => {
   const { category } = useParams();
   const { categories } = useSelector((state) => state.app);
   const [params] = useSearchParams();
   const [products, setProducts] = useState(null);
   const [sort, setSort] = useState();
   const [limit, setLimit] = useState(12);
+  const [update, setUpdate] = useState(false);
   // CHANGE VALUE
   const changeValue = useCallback(
     (value) => {
@@ -31,6 +34,11 @@ const ProductCategory = () => {
     const response = await apis.apiGetAllProduct(queries);
     if (response.success) setProducts(response);
   };
+  // RERENDER
+  const rerender = useCallback(() => {
+    setUpdate(!update);
+    dispatch(getCurrent());
+  }, [update]);
 
   useEffect(() => {
     const queries = Object.fromEntries([...params]);
@@ -59,6 +67,8 @@ const ProductCategory = () => {
     fetchAllProduct(queries);
     window.scrollTo(0, 0);
   }, [limit, params, category, sort]);
+
+  title_head(categories?.find((el) => createSlug(el.title) === category).title);
   return (
     <div className="w-full h-full">
       <div className="w-full h-full bg-[#f6f6f6]">
@@ -85,7 +95,7 @@ const ProductCategory = () => {
           {products?.counts > 0 ? (
             <div className="grid grid-cols-3 gap-10 py-10 px-5">
               {products.products?.map((el) => (
-                <Product key={el._id} data={el} />
+                <Product key={el._id} data={el} rerender={rerender} />
               ))}
             </div>
           ) : (
@@ -108,4 +118,4 @@ const ProductCategory = () => {
   );
 };
 
-export default ProductCategory;
+export default withBase(ProductCategory);

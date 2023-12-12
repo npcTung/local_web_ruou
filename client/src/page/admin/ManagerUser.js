@@ -11,7 +11,7 @@ import withBase from "hocs/withBase";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
-import { exportExcel } from "ultils/helpers";
+import { exportExcel, title_head } from "ultils/helpers";
 
 const {
   BiSolidMessageSquareEdit,
@@ -94,6 +94,8 @@ const ManagerUser = ({ navigate, location, dispatch }) => {
     fetchAllProducts(queries);
     window.scrollTo(0, 0);
   }, [params, sort, update]);
+
+  title_head("Quản lý tài khoản người dùng");
 
   return (
     <div className="w-full">

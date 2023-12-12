@@ -13,7 +13,6 @@ const {
   MdGroups,
   TbBrandProducthunt,
   MdOutlineCreate,
-  RiBillLine,
   FaBlog,
   ImBlog,
 } = icons;
@@ -274,13 +273,6 @@ export const adminSidebar = [
   },
   {
     id: 4,
-    type: "SINGLE",
-    text: "Quản lý đơn hàng",
-    path: `/${path.ADMIN}/${path.MANAGER_ORDER}`,
-    icon: <RiBillLine />,
-  },
-  {
-    id: 5,
     type: "PAREMT",
     text: "Quản lý blog",
     value: "blog",

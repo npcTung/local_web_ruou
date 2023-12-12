@@ -1,3 +1,4 @@
+import React, { memo, useCallback, useEffect, useState } from "react";
 import {
   Button,
   InputForm,
@@ -6,18 +7,19 @@ import {
   MarkDownEditer,
 } from "components";
 import withBase from "hocs/withBase";
-import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { showModal } from "store/app/appSlice";
-import { getBase64, title_head, validate } from "ultils/helpers";
+import { getBase64, validate } from "ultils/helpers";
+import icons from "ultils/icons";
 import * as apis from "apis";
 
-const CreateBlog = ({ dispatch }) => {
-  title_head("Tạo blog");
-  const [invalidFields, setInvalidFields] = useState([]);
+const { MdOutlineClear } = icons;
+
+const UpdateBlog = ({ blogData, dispatch, rerender }) => {
   const [payload, setPayload] = useState({ description: "" });
   const [image, setImage] = useState(null);
+  const [invalidFields, setInvalidFields] = useState([]);
   const {
     handleSubmit,
     register,
@@ -26,27 +28,23 @@ const CreateBlog = ({ dispatch }) => {
     watch,
   } = useForm();
 
-  const handleCreateBlog = async (data) => {
+  const handleUpdateBlog = async (data) => {
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
       const finalPayload = { ...data, ...payload };
+      finalPayload.image =
+        data?.image.length === 0 ? image.thumb : data.image[0];
       const formData = new FormData();
       for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
-      if (finalPayload.image) formData.append("image", finalPayload.image[0]);
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-      const response = await apis.apiCreateBlog(formData);
+      const response = await apis.apiUpdateBlog(blogData._id, formData);
       dispatch(showModal({ isShowModal: false, modalChildren: null }));
       if (response.success) {
         toast.success("Tạo sản phẩm thành công");
         resteData();
+        rerender();
       } else toast.error(response.mes);
     }
-  };
-
-  const resteData = () => {
-    reset();
-    setPayload({ description: "" });
-    setImage(null);
   };
 
   const changeValue = useCallback(
@@ -55,6 +53,12 @@ const CreateBlog = ({ dispatch }) => {
     },
     [payload]
   );
+
+  const resteData = () => {
+    reset();
+    setPayload({ description: "" });
+    setImage(null);
+  };
 
   const handlePreviewImage = async (file) => {
     if (
@@ -74,21 +78,44 @@ const CreateBlog = ({ dispatch }) => {
   };
 
   useEffect(() => {
-    if (watch("image").length > 0) handlePreviewImage(watch("image")[0]);
+    reset({
+      title: blogData.title || "",
+    });
+    setImage({ thumb: blogData.image });
+    setPayload({
+      description:
+        typeof blogData?.description === "object"
+          ? blogData?.description.join(", ")
+          : blogData?.description,
+    });
+  }, [blogData]);
+
+  useEffect(() => {
+    if (watch("image") instanceof FileList && watch("image").length > 0)
+      handlePreviewImage(watch("image")[0]);
   }, [watch("image")]);
 
   return (
-    <div className="w-full">
-      <div className="h-[115px]"></div>
-      <div className="fixed z-10 bg-gray-50 top-0 w-full">
-        <h1 className="flex justify-between items-center text-3xl font-semibold border-b px-[30px] py-[39px]">
-          <span className="uppercase">tạo blog mới</span>
-        </h1>
-      </div>
-      <div className="w-full">
+    <div
+      className="p-5 bg-white rounded-md animate-scale-in-center w-[60%] h-4/5"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h1 className="flex justify-between items-center text-lg font-semibold border-b py-5]">
+        <span className="capitalize">{`sửa thông tin sản phẩm "${blogData?.title.toLowerCase()}"`}</span>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            resteData();
+            dispatch(showModal({ isShowModal: false, modalChildren: null }));
+          }}
+        >
+          <MdOutlineClear />
+        </span>
+      </h1>
+      <div className="w-full h-[96%] overflow-y-scroll px-5 border-b">
         <form
-          onSubmit={handleSubmit(handleCreateBlog)}
-          className="flex flex-col gap-5 w-3/5 mx-auto py-10"
+          onSubmit={handleSubmit(handleUpdateBlog)}
+          className="flex flex-col gap-5 mx-auto py-10"
         >
           <InputForm
             label={"tên tin tức"}
@@ -106,6 +133,7 @@ const CreateBlog = ({ dispatch }) => {
             changeValue={changeValue}
             invalidFields={invalidFields}
             setInvalidFields={setInvalidFields}
+            value={payload.description}
           />
           <InputImage
             thumb
@@ -128,4 +156,4 @@ const CreateBlog = ({ dispatch }) => {
   );
 };
 
-export default withBase(CreateBlog);
+export default withBase(memo(UpdateBlog));

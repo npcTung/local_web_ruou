@@ -7,6 +7,7 @@ import * as apis from "apis";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import withBase from "hocs/withBase";
+import { title_head } from "ultils/helpers";
 
 const ResetPassword = ({ navigate }) => {
   const { token } = useParams();
@@ -20,6 +21,9 @@ const ResetPassword = ({ navigate }) => {
       });
     else toast.error(response.mes, { theme: "colored" });
   };
+
+  title_head("Đặt lại mật khẩu");
+
   return (
     <div className="h-screen w-screen bg-red-50 flex justify-center items-center py-8 z-10 relative">
       <img

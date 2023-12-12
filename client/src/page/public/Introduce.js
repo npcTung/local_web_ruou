@@ -1,7 +1,9 @@
 import { Breadcrumbs } from "components";
 import React from "react";
+import { title_head } from "ultils/helpers";
 
 const Introduce = () => {
+  title_head("Giới thiệu");
   return (
     <div className="w-full h-full">
       <div className="w-full h-full bg-[#f6f6f6]">

@@ -6,8 +6,10 @@ import {
   ProductStandOut,
   SplideProduct,
 } from "components";
+import { title_head } from "ultils/helpers";
 
 const Home = () => {
+  title_head();
   return (
     <div className="w-full">
       <div className="mt-10">

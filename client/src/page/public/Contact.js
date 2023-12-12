@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { title_head } from "ultils/helpers";
 
 const Contact = () => {
   const [countFeel, setCountFeel] = useState(0);
@@ -31,6 +32,8 @@ const Contact = () => {
     if (watch("feel")) setCountFeel(watch("feel").length);
     else setCountFeel(0);
   }, [watch("feel")]);
+
+  title_head("Liên hệ");
 
   return (
     <div className="w-full h-full">

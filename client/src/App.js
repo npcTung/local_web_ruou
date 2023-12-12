@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import {
-  Blog,
   Contact,
+  DetailNews,
   DetailProduct,
   Home,
   Introduce,
@@ -30,7 +30,6 @@ import {
   CreateProduct,
   DashBoard,
   ManagerBlog,
-  ManagerOrder,
   ManagerProduct,
   ManagerUser,
 } from "page/admin";
@@ -97,6 +96,10 @@ function App({ dispatch }) {
           <Route path={path.SEARCH_PRODUCT} element={<SearchProduct />} />
           <Route path={path.PERSIONAL} element={<Personal />} />
           <Route path={path.WISH_LIST} element={<WishList />} />
+          <Route
+            path={`${path.NEWS}/${path.DETAIL_NEWS__BID__TITLE}`}
+            element={<DetailNews />}
+          />
         </Route>
         {/* LOGIN/REGISTER */}
         <Route path={path.LOGIN} element={<Login />} />
@@ -110,7 +113,6 @@ function App({ dispatch }) {
             element={<ManagerProduct />}
           />
           <Route path={`${path.MANAGER_USER}`} element={<ManagerUser />} />
-          <Route path={`${path.MANAGER_ORDER}`} element={<ManagerOrder />} />
           <Route path={`${path.CREATE_PRODUCT}`} element={<CreateProduct />} />
           <Route path={`${path.MANAGER_BLOG}`} element={<ManagerBlog />} />
           <Route path={`${path.CREATE_BLOG}`} element={<CreateBlog />} />

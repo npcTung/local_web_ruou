@@ -6,7 +6,7 @@ import moment from "moment";
 import "moment/locale/vi";
 import icons from "ultils/icons";
 import Avatar from "assets/user.png";
-import { getBase64 } from "ultils/helpers";
+import { getBase64, title_head } from "ultils/helpers";
 import { toast } from "react-toastify";
 import withBase from "hocs/withBase";
 import { showModal } from "store/app/appSlice";
@@ -83,6 +83,8 @@ const Personal = ({ dispatch }) => {
     if (watch("avatar") instanceof FileList && watch("avatar").length > 0)
       handleAvatar(watch("avatar")[0]);
   }, [watch("avatar")]);
+
+  title_head("Thông tin tài khoản");
 
   return (
     <div className="w-full pb-10">

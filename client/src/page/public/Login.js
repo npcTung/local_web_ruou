@@ -16,6 +16,7 @@ import path from "ultils/path";
 import { useSelector } from "react-redux";
 import { showModal } from "store/app/appSlice";
 import { toast } from "react-toastify";
+import { title_head } from "ultils/helpers";
 
 const Login = ({ dispatch, navigate, location }) => {
   const [searchParams] = useSearchParams();
@@ -92,6 +93,9 @@ const Login = ({ dispatch, navigate, location }) => {
   useEffect(() => {
     setIsRegister(location.state?.flag);
   }, [isLoggedIn]);
+
+  title_head(isRegister ? "Đăng ký" : "Đăng nhập");
+
   return (
     <div className="w-screen h-screen relative">
       {/* FINAL REGISTER */}

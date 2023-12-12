@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Breadcrumbs, Comment, ProductInfomation, Product } from "components";
 import * as apis from "apis";
 import { useParams } from "react-router-dom";
-import { formatMoney, renderStarFromNumber } from "ultils/helpers";
+import { formatMoney, renderStarFromNumber, title_head } from "ultils/helpers";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import Product_image from "assets/logo-image.png";
 import Wrapper from "assets/wrapper.svg";
@@ -51,6 +51,7 @@ const DetailProduct = ({ dispatch }) => {
   // RE-RENDER
   const rerender = useCallback(() => {
     setUpdate(!update);
+    dispatch(getCurrent());
   }, [update]);
 
   const images = varriantis
@@ -65,6 +66,7 @@ const DetailProduct = ({ dispatch }) => {
           `Xóa sản phẩm ${productData?.title.toLowerCase()} ra khỏi danh sách yêu thích thành công`
         );
         setWishlist(false);
+        rerender();
       } else {
         toast.error(response.mes);
         setWishlist(true);
@@ -76,6 +78,7 @@ const DetailProduct = ({ dispatch }) => {
           `Thêm sản phẩm ${productData?.title.toLowerCase()} vào danh sách yêu thích thành công`
         );
         setWishlist(true);
+        rerender();
       } else {
         toast.error(ressponse.mes);
         setWishlist(false);
@@ -87,6 +90,8 @@ const DetailProduct = ({ dispatch }) => {
     if (pid) fetchProduct(pid);
     fetchALLProduct();
   }, [pid, update, wishlist]);
+
+  title_head(productData?.title.toLowerCase());
 
   return (
     <div className="w-full h-full pb-10">

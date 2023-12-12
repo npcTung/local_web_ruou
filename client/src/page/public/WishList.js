@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Breadcrumbs } from "components";
 import { useSelector } from "react-redux";
-import { createSlug, formatMoney } from "ultils/helpers";
+import { createSlug, formatMoney, title_head } from "ultils/helpers";
 import icons from "ultils/icons";
 import path from "ultils/path";
 import { Link } from "react-router-dom";
@@ -14,9 +14,9 @@ const { BsStarFill, RiDeleteBin6Line } = icons;
 
 const WishList = ({ dispatch }) => {
   const { currentData } = useSelector((state) => state.user);
-  const wishlist = currentData?.wishlist;
+  const [wishlistData, setWishlistData] = useState(null);
 
-  const handleWishlist = async (data) => {
+  const handleDeleteWishlist = async (data) => {
     const response = await apis.apiRemoveWishlist(data._id);
     if (response.success) {
       toast.success(
@@ -25,6 +25,12 @@ const WishList = ({ dispatch }) => {
       dispatch(getCurrent());
     } else toast.error(response.mes);
   };
+
+  useEffect(() => {
+    setWishlistData(currentData?.wishlist);
+  }, [currentData]);
+
+  title_head("Wish List");
 
   return (
     <div className="w-full pb-10">
@@ -49,47 +55,48 @@ const WishList = ({ dispatch }) => {
             </tr>
           </thead>
           <tbody>
-            {wishlist.map((el) => (
-              <tr key={el._id}>
-                <td>
-                  <img
-                    src={el.thumb}
-                    alt={el.title.toLowerCase()}
-                    className="w-[60px] h-[60px] object-contain rounded-md"
-                  />
-                </td>
-                <td>
-                  <Link
-                    className="capitalize hover:underline hover:text-blue-500 transition-all"
-                    to={`/${path.PRODUCT}/${createSlug(el.category)}/${
-                      el._id
-                    }/${el.slug}`}
-                  >
-                    {el.title.toLowerCase()}
-                  </Link>
-                </td>
-                <td>{formatMoney(el.price)}</td>
-                <td className="whitespace-nowrap flex items-center gap-1">
-                  <span className="text-yellow-500">
-                    <BsStarFill />
-                  </span>
-                  <span>{el.totalRatings}</span>
-                  {el.ratings.length > 0 && (
-                    <span className="opacity-70 whitespace-nowrap">{`(${el.ratings.length} người xem)`}</span>
-                  )}
-                </td>
-                <td></td>
-                <td className="flex items-center justify-center">
-                  <span
-                    className="text-white p-2 rounded-md bg-red-500 cursor-pointer"
-                    title="Xóa sản phẩm khỏi danh sách yêu thích"
-                    onClick={() => handleWishlist(el)}
-                  >
-                    <RiDeleteBin6Line />
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {wishlistData &&
+              wishlistData.map((el) => (
+                <tr key={el._id}>
+                  <td>
+                    <img
+                      src={el.thumb}
+                      alt={el.title.toLowerCase()}
+                      className="w-[60px] h-[60px] object-contain rounded-md"
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      className="capitalize hover:underline hover:text-blue-500 transition-all"
+                      to={`/${path.PRODUCT}/${createSlug(el.category)}/${
+                        el._id
+                      }/${el.slug}`}
+                    >
+                      {el.title.toLowerCase()}
+                    </Link>
+                  </td>
+                  <td>{formatMoney(el.price)}</td>
+                  <td className="whitespace-nowrap flex items-center gap-1">
+                    <span className="text-yellow-500">
+                      <BsStarFill />
+                    </span>
+                    <span>{el.totalRatings}</span>
+                    {el.ratings.length > 0 && (
+                      <span className="opacity-70 whitespace-nowrap">{`(${el.ratings.length} đánh giá)`}</span>
+                    )}
+                  </td>
+                  <td></td>
+                  <td className="flex items-center justify-center">
+                    <span
+                      className="text-white p-2 rounded-md bg-red-500 cursor-pointer"
+                      title="Xóa sản phẩm khỏi danh sách yêu thích"
+                      onClick={() => handleDeleteWishlist(el)}
+                    >
+                      <RiDeleteBin6Line />
+                    </span>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

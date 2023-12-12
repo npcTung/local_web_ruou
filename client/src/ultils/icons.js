@@ -17,7 +17,7 @@ import {
   FaRegFilePdf,
   FaUpload,
 } from "react-icons/fa6";
-import { RiLinkedinFill, RiBillLine } from "react-icons/ri";
+import { RiLinkedinFill } from "react-icons/ri";
 import { IoIosArrowUp } from "react-icons/io";
 import {
   BiTimeFive,
@@ -33,6 +33,12 @@ import {
   FaBlog,
 } from "react-icons/fa6";
 import { SiMicrosoftexcel } from "react-icons/si";
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 
 const icons = {
   ImSearch,
@@ -56,7 +62,6 @@ const icons = {
   MdGroups,
   TbBrandProducthunt,
   MdOutlineCreate,
-  RiBillLine,
   RiDeleteBin6Line,
   BiSolidMessageSquareEdit,
   FaArrowDownShortWide,
@@ -69,6 +74,10 @@ const icons = {
   BiCustomize,
   ImUpload,
   BsList,
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
 };
 
 export default icons;

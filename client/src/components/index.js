@@ -50,3 +50,6 @@ export { default as VoteOption } from "./votes/VoteOption";
 export { default as Comment } from "./votes/Comment";
 // sidebar
 export { default as AdminSidebar } from "./sidebars/AdminSidebar";
+export { default as BlogSidebar } from "./sidebars/BlogSidebar";
+// blogs
+export { default as UpdateBlog } from "./blogs/UpdateBlog";

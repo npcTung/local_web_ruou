@@ -1,7 +1,5 @@
 import icons from "./icons";
 import * as XLSX from "xlsx/xlsx.mjs";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 const { BsStar, BsStarFill } = icons;
 
@@ -52,20 +50,6 @@ export const exportExcel = (data, nameSheet, nameFile) => {
   });
 };
 
-export const exportPDF = (capture, fileName) => {
-  return new Promise((resolve, reject) => {
-    html2canvas(capture).then((canvas) => {
-      const imgData = canvas.toDataURL("img/png");
-      const doc = new jsPDF("p", "mm", "a4");
-      const Width = doc.internal.pageSize.getWidth();
-      const Heigth = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "PNG", 0, 0, Width, Heigth);
-      doc.save(`${fileName}.pdf`);
-    });
-    resolve("Okee");
-  });
-};
-
 export const validate = (payload, setInvalidFields) => {
   let invalids = 0;
   const formatPayload = Object.entries(payload);
@@ -79,4 +63,14 @@ export const validate = (payload, setInvalidFields) => {
     }
   }
   return invalids;
+};
+
+export const title_head = (title = "Trang chủ") => {
+  document.title = `${title} - wine house`;
+  const link = document.createElement("link");
+  link.rel = "icon";
+  link.href =
+    "https://res.cloudinary.com/npctungadmin/image/upload/v1702385011/quan-ly-ruou/icon_kzxcff.png";
+  link.type = "image/png";
+  document.head.appendChild(link);
 };

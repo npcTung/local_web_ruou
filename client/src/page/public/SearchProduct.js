@@ -3,6 +3,7 @@ import { Breadcrumbs, Pagination, Product } from "components";
 import { useSearchParams } from "react-router-dom";
 import * as apis from "apis";
 import NoProduct from "assets/no-product.png";
+import { title_head } from "ultils/helpers";
 
 const SearchProduct = () => {
   const [params] = useSearchParams();
@@ -17,6 +18,8 @@ const SearchProduct = () => {
     const queries = Object.fromEntries([...params]);
     fetchALLProducts(queries);
   });
+
+  title_head("Tìm kiếm sản phẩm");
 
   return (
     <div className="w-full pb-10">

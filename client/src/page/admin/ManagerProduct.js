@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { exportExcel, formatMoney } from "ultils/helpers";
+import { exportExcel, formatMoney, title_head } from "ultils/helpers";
 import icons from "ultils/icons";
 import * as apis from "apis";
 import NoProduct from "assets/no-product.png";
@@ -120,6 +120,8 @@ const ManagerProduct = ({ navigate, location, dispatch }) => {
     fetchAllProducts(queries);
     window.scrollTo(0, 0);
   }, [sort, params, update]);
+
+  title_head("Quản lý sản phẩm");
 
   return (
     <div className="w-full">

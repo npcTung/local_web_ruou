@@ -1,7 +1,27 @@
-import React from "react";
-import { Breadcrumbs } from "components";
+import React, { useEffect, useState } from "react";
+import { Breadcrumbs, Pagination } from "components";
+import { createSlug, title_head } from "ultils/helpers";
+import * as apis from "apis";
+import DOMPurify from "dompurify";
+import { Link, useSearchParams } from "react-router-dom";
+import path from "ultils/path";
 
 const News = () => {
+  title_head("Tin tức");
+  const [params] = useSearchParams();
+  const [blogsData, setBlogsData] = useState(null);
+
+  const fetchAllBlogs = async (queries) => {
+    const response = await apis.apiGetAllBlog(queries);
+    if (response.success) setBlogsData(response);
+  };
+
+  useEffect(() => {
+    const queries = Object.fromEntries([...params]);
+    queries.limit = 4;
+    fetchAllBlogs(queries);
+  }, [params]);
+
   return (
     <div className="w-full h-full">
       <div className="w-full h-full bg-[#f6f6f6]">
@@ -11,83 +31,38 @@ const News = () => {
         </div>
       </div>
       <div className="w-main mx-auto grid grid-cols-2 grid-rows-2 gap-10 py-40">
-        <div className="row-span-1 col-span-1 flex flex-col justify-center gap-10">
-          <div className="w-full">
-            <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696671633/quan-ly-ruou/img-pavblog-700x326_grande_cmwrxw.jpg"
-              alt="bg-news-1"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <span className="font-bold hover:text-gray-500 transition-all cursor-pointer">
-              Những loại rượu vang thượng hạng được láy từ nước Ý
-            </span>
-            <span className="opacity-70">By:Wine House</span>
-            <span>
-              Emily Weiss (Into The Gloss) là sáng lập viên kiêm CEO của hãng mỹ
-              phẩm Glossier dành cho phái đẹp. 8X là nhân vật có...
-            </span>
-          </div>
-        </div>
-        <div className="row-span-1 col-span-1 flex flex-col justify-center gap-10">
-          <div className="w-full">
-            <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696671633/quan-ly-ruou/img-pavblog2-700x326_grande_nfpvkn.jpg"
-              alt="bg-news-2"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <span className="font-bold hover:text-gray-500 transition-all cursor-pointer">
-              Loại rượu vang được mọi người yêu thích nhất
-            </span>
-            <span className="opacity-70">By:Wine House</span>
-            <span>
-              Emily Weiss (Into The Gloss) là sáng lập viên kiêm CEO của hãng mỹ
-              phẩm Glossier dành cho phái đẹp. 8X là nhân vật có...
-            </span>
-          </div>
-        </div>
-        <div className="row-span-1 col-span-1 flex flex-col justify-center gap-10">
-          <div className="w-full">
-            <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696671632/quan-ly-ruou/img-pavblog3-700x326_grande_xkidp2.jpg"
-              alt="bg-news-3"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <span className="font-bold hover:text-gray-500 transition-all cursor-pointer">
-              Vị ngon của những loại vang năm 1873
-            </span>
-            <span className="opacity-70">By:Wine House</span>
-            <span>
-              Emily Weiss (Into The Gloss) là sáng lập viên kiêm CEO của hãng mỹ
-              phẩm Glossier dành cho phái đẹp. 8X là nhân vật có...
-            </span>
-          </div>
-        </div>
-        <div className="row-span-1 col-span-1 flex flex-col justify-center gap-10">
-          <div className="w-full">
-            <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696672010/quan-ly-ruou/img-pavblog1-700x326_grande_ubhw97.jpg"
-              alt="bg-news-4"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <span className="font-bold hover:text-gray-500 transition-all cursor-pointer">
-              Đi du lịch và thưởng thức vị ngon của Woodbridgi
-            </span>
-            <span className="opacity-70">By:Wine House</span>
-            <span>
-              Emily Weiss (Into The Gloss) là sáng lập viên kiêm CEO của hãng mỹ
-              phẩm Glossier dành cho phái đẹp. 8X là nhân vật có...
-            </span>
-          </div>
-        </div>
+        {blogsData?.counts > 0 &&
+          blogsData.blog.map((el) => (
+            <div className="row-span-1 col-span-1 flex flex-col justify-center gap-10">
+              <Link
+                to={`/${path.NEWS}/${el._id}/${createSlug(el.title)}`}
+                className="w-[540px] h-[250px]"
+              >
+                <img
+                  src={el.image}
+                  alt={el.title}
+                  className="w-full h-full object-contain"
+                />
+              </Link>
+              <div className="flex flex-col gap-3">
+                <Link
+                  to={`/${path.NEWS}/${el._id}/${createSlug(el.title)}`}
+                  className="font-bold hover:text-gray-500 transition-all"
+                >
+                  {el.title}
+                </Link>
+                <span className="opacity-70">{`By: ${
+                  el.author === "Admin" ? "Wine House" : el.author
+                }`}</span>
+              </div>
+            </div>
+          ))}
       </div>
+      {blogsData?.counts > 4 && (
+        <div className="sm:w-main mx-auto flex justify-end py-5">
+          <Pagination totalCount={blogsData?.counts} limit={4} />
+        </div>
+      )}
     </div>
   );
 };

@@ -9,8 +9,11 @@ import {
 import * as apis from "apis";
 import { useSearchParams } from "react-router-dom";
 import NoProduct from "assets/no-product.png";
+import { title_head } from "ultils/helpers";
+import withBase from "hocs/withBase";
+import { getCurrent } from "store/user/asyncActions";
 
-const Products = () => {
+const Products = ({ dispatch }) => {
   const [params] = useSearchParams();
   const [products, setProducts] = useState(null);
   const [sort, setSort] = useState("-totalRatings");
@@ -26,6 +29,7 @@ const Products = () => {
   // RERENDER
   const rerender = useCallback(() => {
     setUpdate(!update);
+    dispatch(getCurrent());
   }, [update]);
   // GET ALL API PRODUCTS
   const fetchAllProduct = async (queries) => {
@@ -53,8 +57,10 @@ const Products = () => {
     delete queries.min;
     delete queries.max;
     fetchAllProduct(queries);
-    window.scrollTo(0, 0);
   }, [limit, sort, params, update]);
+
+  title_head("Tất cả rượu");
+
   return (
     <div className="w-full h-full">
       <div className="w-full h-full bg-[#f6f6f6]">
@@ -97,4 +103,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withBase(Products);

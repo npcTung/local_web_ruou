@@ -9,7 +9,7 @@ import {
 } from "components";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { createSlug, getBase64, validate } from "ultils/helpers";
+import { createSlug, getBase64, title_head, validate } from "ultils/helpers";
 import { toast } from "react-toastify";
 import withBase from "hocs/withBase";
 import { showModal } from "store/app/appSlice";
@@ -48,9 +48,10 @@ const CreateProduct = ({ dispatch }) => {
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
       const response = await apis.apiCreateProduct(formData);
       dispatch(showModal({ isShowModal: false, modalChildren: null }));
-      if (response.success) toast.success("Tạo sản phẩm thành công");
-      else toast.error(response.mes);
-      resteData();
+      if (response.success) {
+        toast.success("Tạo sản phẩm thành công");
+        resteData();
+      } else toast.error(response.mes);
     }
   };
 
@@ -113,6 +114,8 @@ const CreateProduct = ({ dispatch }) => {
   useEffect(() => {
     if (watch("images").length > 0) handlePreviewImages(watch("images"));
   }, [watch("images")]);
+
+  title_head("Tạo sản phẩm mới");
 
   return (
     <div className="w-full">

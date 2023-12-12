@@ -1,13 +1,14 @@
 const path = {
+  ALL: "*",
+  HOME: "",
   // PUBLIC
   PUBLIC: "/",
-  HOME: "",
-  ALL: "*",
   LOGIN: "login",
   PRODUCT: "products",
   PRODUCT_CATEGORY: ":category",
   DETAIL_PRODUCT__PID__TITLE: ":pid/:title",
   NEWS: "news",
+  DETAIL_NEWS__BID__TITLE: ":bid/:title",
   INTRODUCE: "introduce",
   CONTACT: "contact",
   RESET_PASSWORD: "reset-password/:token",
