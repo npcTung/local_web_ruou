@@ -74,7 +74,7 @@ const Footer = () => {
         onMouseLeave={() => setIsShow(false)}
       >
         <img
-          src="https://res.cloudinary.com/npctungadmin/image/upload/v1696575307/quan-ly-ruou/footer_story_content_fpfzna.jpg"
+          src="https://res.cloudinary.com/npctungadmin/image/upload/v1702480560/quan-ly-ruou/footer_story_content_yzszdw.jpg"
           alt="backgroud"
           className="w-full h-[422px] object-cover"
         />

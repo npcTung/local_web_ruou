@@ -33,7 +33,7 @@ const Introduce = () => {
       <div className="sm:grid sm:grid-rows-2 sm:grid-cols-3 gap-6 mt-5">
         <div className="relative row-span-1 col-span-2">
           <img
-            src="https://res.cloudinary.com/npctungadmin/image/upload/v1696570563/quan-ly-ruou/about_us_newsletter_about_background_qyhn3c.jpg"
+            src="https://res.cloudinary.com/npctungadmin/image/upload/v1702480329/quan-ly-ruou/about_us_newsletter_about_background_ffvhgg.jpg"
             alt="introduce_1"
             className="w-full h-[400px] object-cover"
           />
@@ -73,7 +73,7 @@ const Introduce = () => {
         <div className="row-span-1 col-span-1">
           <Link to={`/${path.PRODUCT}`}>
             <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696570562/quan-ly-ruou/interactive_banner_v2_image_1_yvy7ur.jpg"
+              src="https://res.cloudinary.com/npctungadmin/image/upload/v1702480383/quan-ly-ruou/interactive_banner_v2_image_1_u0kr3n.jpg"
               alt="introduce_2"
               className="w-full h-full object-cover"
             />
@@ -82,7 +82,7 @@ const Introduce = () => {
         <div className="row-span-1 col-span-1">
           <Link to={`/${path.PRODUCT}`}>
             <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696570562/quan-ly-ruou/interactive_banner_v2_image_2_kkxumg.jpg"
+              src="https://res.cloudinary.com/npctungadmin/image/upload/v1702480384/quan-ly-ruou/interactive_banner_v2_image_2_xuyart.jpg"
               alt="introduce_3"
               className="w-full h-full object-cover"
             />
@@ -91,7 +91,7 @@ const Introduce = () => {
         <div className="row-span-1 col-span-1">
           <Link to={`/${path.PRODUCT}`}>
             <img
-              src="https://res.cloudinary.com/npctungadmin/image/upload/v1696570562/quan-ly-ruou/interactive_banner_v2_image_3_mld5oy.jpg"
+              src="https://res.cloudinary.com/npctungadmin/image/upload/v1702480384/quan-ly-ruou/interactive_banner_v2_image_3_sqievc.jpg"
               alt="introduce_4"
               className="w-full h-full object-cover"
             />
