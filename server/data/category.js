@@ -9,7 +9,7 @@ const category = [
       "Rượu vang năm 1973",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_3_bx2y2h.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1702479289/quan-ly-ruou/collection_carousel_background_3_dpis6b.jpg",
   },
   {
     cate: "Rượu thường",
@@ -21,7 +21,7 @@ const category = [
       "Rượu gạo",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_2_rnpiub.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1702479289/quan-ly-ruou/collection_carousel_background_2_jqgzc2.jpg",
   },
   {
     cate: "Rượu ngoại",
@@ -33,7 +33,7 @@ const category = [
       "Rượu vodka beluga",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_1_tadw1v.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1702479289/quan-ly-ruou/collection_carousel_background_1_qzhsbb.jpg",
   },
   {
     cate: "Rượu trong nước",
@@ -45,13 +45,13 @@ const category = [
       "Rượu gạo",
     ],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502432/quan-ly-ruou/collection_carousel_background_4_inmnto.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1702479289/quan-ly-ruou/collection_carousel_background_4_c8oigt.jpg",
   },
   {
     cate: "Cửa hàng",
     brand: [],
     image:
-      "https://res.cloudinary.com/npctungadmin/image/upload/v1696502627/quan-ly-ruou/megamenu_1_image_1_ozcm0l.jpg",
+      "https://res.cloudinary.com/npctungadmin/image/upload/v1702479779/quan-ly-ruou/megamenu_1_image_1_iaw23g.jpg",
   },
 ];
 
